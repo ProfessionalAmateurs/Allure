@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AllureRemodeling",
+    "\\AllureRemodeling\\Views\\Home",
+    "\\AllureRemodeling\\Views\\Shared"
   ],
-  "SelectedNode": "\\AllureRemodeling.sln",
+  "SelectedNode": "\\AllureRemodeling\\Views",
   "PreviewInSolutionExplorer": false
 }
