@@ -34,10 +34,22 @@ namespace AllureRemodeling.Controllers
             return View();
         }
 
-        public ActionResult CustomerInfo()
+        public ActionResult CreateCustomerProfile()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+
+            catch (Exception exc)
+            {
+                // manually logs exception to Elmah
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
+
+                throw new Exception(exc.Message);
+            }
         }
+
         //public JsonResult GetPicture()
         //{
         //    DatabaseClass db = new DatabaseClass();

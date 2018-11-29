@@ -6,22 +6,9 @@ using System.Web;
 
 namespace AllureRemodeling.Models
 {
-    public class Users
+    public class States
     {
-        public virtual int  UserID { get; set; }
-        public virtual string FirstName { get; set; }
-        public virtual string LastName { get; set; }
-        public virtual string Address1 { get; set; }
-        public virtual string Address2 { get; set; }
-        public virtual string City { get; set; }
-        public States? State { get; set; }
-        public virtual string Zip { get; set; }
-        public virtual string PhoneNumber { get; set; }
-        public virtual string EmailAddress { get; set; }
-        public virtual string SecurityGroupID { get; set; }
-        public virtual string AccountTypeID { get; set; }
-        public virtual string SystemUserID { get; set; }
-        public enum States
+        public enum State
         {
             [Description("Alabama")]
             AL,
