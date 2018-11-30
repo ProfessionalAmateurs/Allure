@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AllureRemodeling.Models;
 
 namespace AllureRemodeling.Controllers
 {
@@ -50,6 +51,12 @@ namespace AllureRemodeling.Controllers
             }
         }
 
+        public JsonResult AddCustomerAccount(Users customerAccount)
+        {
+            var success = true;
+
+            return Json(success);
+        }
         //public JsonResult GetPicture()
         //{
         //    DatabaseClass db = new DatabaseClass();
