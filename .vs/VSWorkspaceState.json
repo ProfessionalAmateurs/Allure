@@ -2,9 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\AllureRemodeling",
-    "\\AllureRemodeling\\Views\\Home",
-    "\\AllureRemodeling\\Views\\Shared"
+    "\\AllureRemodeling\\Controllers",
+    "\\AllureRemodeling\\Models"
   ],
-  "SelectedNode": "\\AllureRemodeling\\Views",
+  "SelectedNode": "\\AllureRemodeling\\Controllers",
   "PreviewInSolutionExplorer": false
 }
