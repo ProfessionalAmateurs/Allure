@@ -2,7 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-<<<<<<< HEAD
 /AllureRemodeling/obj/Debug
 /AllureRemodeling/obj/Release
 /packages/bootstrap.3.3.7
@@ -59,7 +58,9 @@ TestResults/
 *.rar
 *.tar
 *.zip
-######################
+*.vs
+##########
+############
 # Logs and databases #
 ######################
 *.log
@@ -86,6 +87,3 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 
-=======
-*.suo
->>>>>>> parent of f3c8290... Made changes to gitignore file
