@@ -9,6 +9,7 @@
 /packages/jQuery.Validation.1.17.0
 /packages/Microsoft.ApplicationInsights.Agent.Intercept.2.4.0
 /packages/Microsoft.ApplicationInsights.2.5.1
+
 ###################
 # compiled source #
 ###################
@@ -63,6 +64,7 @@ TestResults/
 ######################
 *.log
 *.sqlite
+*.sqlite3
 # OS generated files #
 ######################
 .DS_Store?
@@ -84,4 +86,6 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+*.vs
+*.v15
 
