@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AllureRemodeling.Models;
 
 namespace AllureRemodeling.Controllers
 {
@@ -33,6 +34,38 @@ namespace AllureRemodeling.Controllers
 
             return View();
         }
+
+        public ActionResult CreateCustomerProfile()
+        {
+            try
+            {
+                return View();
+            }
+
+            catch (Exception exc)
+            {
+                // manually logs exception to Elmah
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
+
+                throw new Exception(exc.Message);
+            }
+        }
+
+        public JsonResult AddCustomerAccount(Users customerAccount)
+        {
+            var success = true;
+
+            return Json(success);
+        }
+        //public JsonResult GetPicture()
+        //{
+        //    DatabaseClass db = new DatabaseClass();
+
+        //    var picture = db.GetPicture();
+
+        //    return Json(picture);
+        //}
+
 
 
 

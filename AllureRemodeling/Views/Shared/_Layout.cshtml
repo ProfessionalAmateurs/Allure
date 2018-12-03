@@ -59,6 +59,9 @@
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/MainSite.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </head>
 <body>
     <div class="container-fullwidth page-header">
@@ -80,7 +83,7 @@
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Customer Reviews</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Careers</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Request an Estimate</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Create an Profile</u></a>
+                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Create a Profile</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
 
                     </form>
@@ -106,8 +109,7 @@
             <p>&copy; @DateTime.Now.Year - Allure Remodeling and Home Improvement</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+  
+   
 </body>
 </html>

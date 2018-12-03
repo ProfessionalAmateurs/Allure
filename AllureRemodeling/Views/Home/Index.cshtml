@@ -4,5 +4,27 @@
 
 <div class="jumbotron">
     This is the home page
+
+    <img id="test_picture" />
 </div>
 
+@section Scripts
+{
+    <script>
+        @*$(function ()
+        {
+            $.ajax()
+            {
+                type: 'POST',
+                url: '@Url.Action("GetPicture", "Home")',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function(data)
+                {
+                    $("#test_picture").attr("src", data);
+                }
+
+            };*@
+        });
+    </script>
+}
