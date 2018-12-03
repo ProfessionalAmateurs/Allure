@@ -34,20 +34,6 @@ namespace AllureRemodeling.Controllers
             return View();
         }
 
-        public ActionResult CustomerInfo()
-        {
-            return View();
-        }
-        //public JsonResult GetPicture()
-        //{
-        //    DatabaseClass db = new DatabaseClass();
-
-        //    var picture = db.GetPicture();
-
-        //    return Json(picture);
-        //}
-
-
 
 
     }
