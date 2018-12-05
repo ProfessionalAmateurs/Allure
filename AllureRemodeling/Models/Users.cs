@@ -7,19 +7,19 @@ namespace AllureRemodeling.Models
 {
     public class Users
     {
-        public virtual int  UserID { get; set; }
-        public virtual string FirstName { get; set; }
-        public virtual string LastName { get; set; }
-        public virtual string Address1 { get; set; }
-        public virtual string Address2 { get; set; }
-        public virtual string City { get; set; }
-        public virtual string State { get; set; }
-        public virtual string Zip { get; set; }
-        public virtual string PhoneNumber { get; set; }
-        public virtual string EmailAddress { get; set; }
-        public virtual string SecurityGroupID { get; set; }
-        public virtual string AccountTypeID { get; set; }
-        public virtual string SystemUserID { get; set; }
+        public  int  UserID { get; set; }
+        public  string FirstName { get; set; }
+        public  string LastName { get; set; }
+        public  string Address1 { get; set; }
+        public  string Address2 { get; set; }
+        public  string City { get; set; }
+        public  string State { get; set; }
+        public  string Zip { get; set; }
+        public  string PhoneNumber { get; set; }
+        public  string EmailAddress { get; set; }
+        public  string SecurityGroupID { get; set; }
+        public  string AccountTypeID { get; set; }
+        public  string SystemUserID { get; set; }
         
     }
 }
