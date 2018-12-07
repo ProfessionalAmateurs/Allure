@@ -22,13 +22,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F81D93C-F3BB-4030-8584-8ECD7004CCB7}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://igovservices.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AllureRemodeling\\AllureRemodeling.csproj
-		SccProjectName1 = AllureRemodeling
-		SccLocalPath1 = AllureRemodeling
-	EndGlobalSection
 EndGlobal
