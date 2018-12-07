@@ -41,6 +41,10 @@
                                            new { @id= "addCustomer-State", @class = "form-control" })
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
+                <label for="addCustomer_zip">Zip Code</label>
+                <input id="addCustomer_zip" class="form-control" type="text" />
+            </div>
+            <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_password">Password</label>
                 <input id="addCustomer_password" class="form-control" type="password" />
             </div>
@@ -64,16 +68,17 @@
 
             $("#createAccount").click(function ()
             {
-                console.log("Hey");
+               
                 var customerAccount = new Object();
 
                 customerAccount.FirstName       = $("#addCustomer_firstName").val();
                 customerAccount.LastName        = $("#addCustomer_lastName").val();
                 customerAccount.EmailAddress    = $("#addCustomer_email").val();
-                customerAccount.Address         = $("#addCustomer_address1").val();
-                customer.Address2               = $("#addCustomer_address2").val();
+                customerAccount.Address1        = $("#addCustomer_address1").val();
+                customerAccount.Address2        = $("#addCustomer_address2").val();
                 customerAccount.City            = $("#addCustomer_city").val();
                 customerAccount.State           = $("#addCustomer-State").find(":selected").text();
+                customerAccount.Zip             = $("#addCustomer_zip").val();
                 customerAccount.password        = $("#addCustomer_password").val();
 
                 $.ajax
