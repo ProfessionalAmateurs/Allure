@@ -9,6 +9,24 @@ namespace AllureRemodeling.Models
 {
 	public class DatabaseClass
 	{
+        //public int AddSystemUser()
+        //{
+            
+        //}
+        public bool AddCustomerAccount(Users user)
+        {
+          
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            bool success = false; 
+
+            string insertStatement = "INSERT INTO TUsers( FirstName, LastName, Address1, Address2, City, State, Zip, PhoneNumber, EmailAddress, SecurityGroup, AccountTypeID, SystemUserID) ";
+                    insertStatement += "Values('" + user.FirstName + "', '" + user.LastName + "', '" + user.Address1 + "', '" + user.Address2 + "', '" + user.City + "', '" + user.State + "', '" + user.Zip + "', '" + user.PhoneNumber + "', '" + user.EmailAddress + "', 1, )";
+            return success;
+        }
+
+
 
         // ------------------------------------------------------------------------------------------
         // Name: GetDBConnection

@@ -163,6 +163,7 @@
     <Compile Include="Models\DatabaseClass.cs" />
     <Compile Include="Models\Jobs.cs" />
     <Compile Include="Models\Materials.cs" />
+    <Compile Include="Models\SHA.cs" />
     <Compile Include="Models\States.cs" />
     <Compile Include="Models\Testimonials.cs" />
     <Compile Include="Models\Users.cs" />
