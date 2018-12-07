@@ -24,8 +24,12 @@
                 <input id="addCustomer_email" class="form-control" type="text" placeholder="Email" />
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
-                <label for="addCustomer_address">Address</label>
-                <input id="addCustomer_address" class="form-control" type="text" placeholder="Address" />
+                <label for="addCustomer_address1">Address</label>
+                <input id="addCustomer_address2" class="form-control" type="text" placeholder="Address" />
+            </div>
+            <div class="col-md-4" style="padding-bottom: 15px;">
+                <label for="addCustomer_address2">Address 2</label>
+                <input id="addCustomer_address2" class="form-control" type="text" placeholder="Apt#" />
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_city">City</label>
@@ -37,15 +41,19 @@
                                            new { @id= "addCustomer-State", @class = "form-control" })
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
+                <label for="addCustomer_zip">Zip Code</label>
+                <input id="addCustomer_zip" class="form-control" type="text" />
+            </div>
+            <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_password">Password</label>
-                <input id="addCustomer_password" class="form-control" type="password"/>
+                <input id="addCustomer_password" class="form-control" type="password" />
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_confirmpassword">Confirm Password</label>
-                <input id="addCustomer_confirmpassword" class="form-control" type="password"/>
+                <input id="addCustomer_confirmpassword" class="form-control" type="password" />
             </div>
 
-            <div class="col-md-6 col-md-offset-3" style="padding-top: 15px;">
+            <div class="col-md-6 col-md-offset-4" style="padding-top: 15px;">
                 <input type="button" class="btn btn-primary btn-block" id="createAccount" value="Submit" />
             </div>
         </div>
@@ -60,16 +68,32 @@
 
             $("#createAccount").click(function ()
             {
-                console.log("Hey");
+               
                 var customerAccount = new Object();
 
-                customerAccount.FirstName = $("#addCustomer_firstName").val();
-                customerAccount.LastName = $("#addCustomer_lastName").val();
-                customerAccount.EmailAddress = $("#addCustomer_email").val();
-                customerAccount.Address1 = $("#addCustomer_address").val();
-                customerAccount.City = $("#addCustomer_city").val();
-                customerAccount.State = $("#addCustomer-State").find(":selected").text();
-                customerAccount.password = $("#addCustomer_password").val();
+                customerAccount.FirstName       = $("#addCustomer_firstName").val();
+                customerAccount.LastName        = $("#addCustomer_lastName").val();
+                customerAccount.EmailAddress    = $("#addCustomer_email").val();
+                customerAccount.Address1        = $("#addCustomer_address1").val();
+                customerAccount.Address2        = $("#addCustomer_address2").val();
+                customerAccount.City            = $("#addCustomer_city").val();
+                customerAccount.State           = $("#addCustomer-State").find(":selected").text();
+                customerAccount.Zip             = $("#addCustomer_zip").val();
+                customerAccount.password        = $("#addCustomer_password").val();
+
+                $.ajax
+                ({
+                    type: 'POST',
+                    url: '@Url.Action("AddCustomerAccount", "Home")',
+                    data: JSON.stringify(customerAccount),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data)
+                    {
+                           
+                    },
+
+                });
             });
             @*$("#createAcccount").click(function ()
             {

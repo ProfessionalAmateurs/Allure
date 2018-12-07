@@ -53,7 +53,9 @@ namespace AllureRemodeling.Controllers
 
         public JsonResult AddCustomerAccount(Users customerAccount)
         {
-            var success = true;
+            DatabaseClass db = new DatabaseClass();
+
+            var success = db.AddCustomerAccount(customerAccount);
 
             return Json(success);
         }
