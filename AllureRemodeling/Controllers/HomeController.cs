@@ -48,17 +48,22 @@ namespace AllureRemodeling.Controllers
 
         public ActionResult Estimate()
         {
-            List<Estimates> lstQuestions = new List<Estimates>();
-            lstQuestions = db.GetQuestions().ToList();
-            return View(lstQuestions);
-
+            return View();
         }
 
         public JsonResult GetEstimateQuestion()
         {
-            var questions = db.GetQuestions();
+            var questions = db.GetEstimateQuestions();
 
             return Json(questions);
+        }
+
+        public JsonResult SubmitAnswers(List<Estimates> estimateAnswers)
+        {
+            for (var i = 0; i < estimateAnswers.Count; i++)
+            {
+                db.
+            }
         }
         public ActionResult SaveRecord(Estimates estimates, string action, FormCollection frm)
         {

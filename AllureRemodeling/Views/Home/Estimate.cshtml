@@ -1,29 +1,20 @@
-﻿@using System.Data
-@using System.Data.SqlClient
-@model  IEnumerable<AllureRemodeling.Models.Estimates>
-
-
-
-@{
-        ViewBag.Title = "Estimate";
-}    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewBag.Title = "Estimate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}       
 
 <div class="container">
     <div class="panel" style="margin-top: 15px;">
-        <div class="panel-heading" style="background-color: #9BC53D; color: white;">
+        <div class="panel-heading" style="background-color:blue ; color: white;">
             Estimate Questions
         </div>
-        <div @*class="panel-body" id="estimateQuestionAnswerArea"*@>
-            @foreach (var items in Model)
-            {
-                @Html.DisplayFor(m => items.Question);
-                @Html.TextBoxFor(m => items.Answer);
-            }
+        <div class="panel-body" id="estimateQuestionAnswerArea">
+
         </div>
     </div>
 </div>
 
-@*@section Scripts
+@section Scripts
 {
     <script>
         $(function ()
@@ -34,21 +25,39 @@
                 url: '@Url.Action("GetEstimateQuestion", "Home")',
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        var html = '';
+                success: function (data)
+                {
+                    var html = '';
+                    var count = 0;
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        html += ' <div class="form-group">';
+                        html += '<label for=question"-' + data[i].QuestionID + '"><span style="color: red">*</span>' + data[i].Question + '</label >';
+                        html += '<input class=form-control id="answer_' + i + '" type="text" />'
+                        count += 1;
+                    }
 
-                        for (var i = 0; i <= data.length; i++) {
-                            html += '<div class="form-group>'
-                            html += '<label name=question_' + data.QuestionID + '> ' + data.Question + '</label>'
-                            html += '<input class="form-control" id="answer_' + i + '"/>';
-                            html += '</div>';
+                    html += '<button class="btn" id="estimateQuestion_Submit">Submit</button>'
+                    $("#estimateQuestionAnswerArea").append(html);
 
 
+                    $("#estimateQuestion_Submit").click(function ()
+                    {
+                        var estimateAnswers = new Array();
+
+                        for (var i = 0; i < count; i++)
+                        {
+                            var estimateAnswer = new Object();
+
+                            estimateAnswer.Answer = $("#answer_" + i).val();
+
+                            estimateAnswers.push(estimateAnswer);
                         }
 
-                        $("#estimateQuestionAnswerArea").append(html);
-                    }
+                        
+                    })
+                }
             });
         });
     </script>   
-}*@
+}
