@@ -7,9 +7,7 @@ using System.Web.Mvc;
 using AllureRemodeling.Models;
 using System.Data;
 using System.Data.SqlClient;
-
-
-
+using System.Web.Helpers;
 
 namespace AllureRemodeling.Controllers
 {
@@ -60,37 +58,20 @@ namespace AllureRemodeling.Controllers
 
         public JsonResult SubmitAnswers(List<Estimates> estimateAnswers)
         {
+            var success = false;
+            string empty = $@"A Client has sent the following request for estimate";
             for (var i = 0; i < estimateAnswers.Count; i++)
             {
-                db.
+                success = db.InsertAnswerData(estimateAnswers[i]);
+                empty += estimateAnswers[i].Question + " : <br/>" + estimateAnswers[i].Answer + ". <br/>";
             }
+
+            Email email = new Email();
+            email.sendEmail(empty, "Estimate Request");
+
+            //SaveRecord();
+            return Json(success);
         }
-        public ActionResult SaveRecord(Estimates estimates, string action, FormCollection frm)
-        {
-            //foreach (string s in Request.Form.Keys)
-            //{
-            //    Response.Write(s.ToString() + ":" + Request.Form[s] + 
-            //}
-            //if (action == "Submit")
-            //{
-
-                //    }
-                //    List<string> list = new List<string>();
-                //    for (int i = 0; i < frm.AllKeys.Count(); ++i)
-                //    {
-                //        //list.Add(frm.Get(i));
-                //        estimates.Answer = frm.Get(i);
-                //        db.InsertAnswerData(key, estimates.Answer);
-                //    }
-
-                //    return RedirectToAction("Index");
-                //}
-                //else
-                //{
-                return ViewBag.message("Please try again.");
-            //}
-        }
-
 
     }
 }

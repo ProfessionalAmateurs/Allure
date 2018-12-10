@@ -18,5 +18,9 @@ namespace AllureRemodeling.Models
 
         public string Answer
         { get; set; }
+
+        public string estimateEmailBody
+        { get; set; }
+
     }
 }

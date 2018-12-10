@@ -32,7 +32,9 @@
                     for (var i = 0; i < data.length; i++)
                     {
                         html += ' <div class="form-group">';
-                        html += '<label for=question"-' + data[i].QuestionID + '"><span style="color: red">*</span>' + data[i].Question + '</label >';
+                        html += '<label for=question-' + data[i].QuestionID + ' id=question-' + data[i].QuestionID + '><span style="color: red">*</span>' + data[i].Question + '</label >';
+
+                        //html += '<label for=question"-' + data[i].QuestionID + '"><span style="color: red">*</span>' + data[i].Question + '</label >';
                         html += '<input class=form-control id="answer_' + i + '" type="text" />'
                         count += 1;
                     }
@@ -44,16 +46,35 @@
                     $("#estimateQuestion_Submit").click(function ()
                     {
                         var estimateAnswers = new Array();
-
+                        
                         for (var i = 0; i < count; i++)
                         {
                             var estimateAnswer = new Object();
-
+                           
                             estimateAnswer.Answer = $("#answer_" + i).val();
+                            //estimateQuestionID.QuestionID = $("#question-" + i).val();
+                            estimateAnswer.QuestionID = data[i].QuestionID;
+                            estimateAnswer.Question = data[i].Question;
 
                             estimateAnswers.push(estimateAnswer);
+                           
+
                         }
 
+                         $.ajax
+                        ({
+                            type: 'POST',
+                            url: '@Url.Action("SubmitAnswers", "Home")',
+                            data: JSON.stringify(estimateAnswers),
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data)
+                            { 
+                                var redirectURL = '@Url.Action("Index","Home")';
+                                window.location.href = redirectURL;
+                            },
+                        });
+                        
                         
                     })
                 }

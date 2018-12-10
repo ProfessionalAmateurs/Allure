@@ -36,15 +36,54 @@ namespace AllureRemodeling.Models
                 estimateQuestions.Add(estimates);
             }
 
+            CloseDBConnection(ref cn);
+
             return estimateQuestions;
         }
 
-            // ------------------------------------------------------------------------------------------
-            // Name: GetDBConnection
-            // Abstract: Connect to the database.  Here is where connection strings should be changed
-            //           for each customers database instance.
-            // ------------------------------------------------------------------------------------------
-            private int GetDBConnection(ref SqlConnection sqlConn)
+        //------------------------------------------------------------------------------------------
+        // Name: InsertEstimateAnswers
+        // Abstract: Insert answers for the estimate questions
+        // ------------------------------------------------------------------------------------------
+        public bool InsertAnswerData(Estimates estimateAnswers)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+                bool success = false;
+                string cmdString = "Insert into TAnswers (QuestionID, Answer) Values (@id, @answer)";
+                
+                SqlCommand sql = new SqlCommand(cmdString, cn);
+                sql.Parameters.AddWithValue("@id",estimateAnswers.QuestionID);
+                sql.Parameters.AddWithValue("@answer", estimateAnswers.Answer);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if(rowsAffected > 0)
+                {
+                    success = true;
+                }
+                
+                CloseDBConnection(ref cn);
+                return success;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: GetDBConnection
+        // Abstract: Connect to the database.  Here is where connection strings should be changed
+        //           for each customers database instance.
+        // ------------------------------------------------------------------------------------------
+        private int GetDBConnection(ref SqlConnection sqlConn)
         {
             try
             {
@@ -70,11 +109,7 @@ namespace AllureRemodeling.Models
                     // ---------------------------
                     // Saniya's Connection Strings
                     // ---------------------------
-                    string saniaComputer = "Server=(LocalDB)\\v11.0;" +
-                                              "Trusted_Connection=yes;" +
-                                              "database=Allure;" +
-                                              "MultipleActiveResultSets=True;" +
-                                              "connection timeout=30";
+                    string saniaComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Saniya\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
 
                     // Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Saniya\Allure.mdf; Integrated Security = True; Connect Timeout = 30
                     // ---------------------------
@@ -82,7 +117,7 @@ namespace AllureRemodeling.Models
                     // ---------------------------
 
 
-                    sqlConn.ConnectionString = ricksComputer;
+                    sqlConn.ConnectionString = saniaComputer;
 
                     sqlConn.Open();
                 }
@@ -178,41 +213,6 @@ namespace AllureRemodeling.Models
 
         }
 
-//        // ------------------------------------------------------------------------------------------
-//        // Name: GetQuestions
-//        // Abstract: 
-//        // ------------------------------------------------------------------------------------------
-//        public IEnumerable<Estimates> GetQuestions()
-//        {
-//            List<Estimates> lstquestion= new List<Estimates>();
-//            try
-//            {
-//                SqlConnection conn;
-//                SqlCommand cmd;
-//                string cmdString = "Select QuestionID, Question from TQuestions";
-//                conn = new
-//                //SqlConnection(@"Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\NORTHWND.MDF;Integrated Security=True;User Instance=True"); // Put this string on one line in your code
-//                SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Saniya\Allure.mdf; Integrated Security = True; Connect Timeout = 30"); // Put this string on one line in your code
-//                cmd = new SqlCommand(cmdString, conn);
-//                conn.Open();
-//                SqlDataReader rdr = cmd.ExecuteReader();
-
-//                while (rdr.Read())
-//                {
-//                    Estimates estimate = new Estimates();
-//                    estimate.QuestionID = Convert.ToInt32(rdr["QuestionID"]);
-//                    estimate.Question = rdr["Question"].ToString();
-//                    lstquestion.Add(estimate);
-//                }
-//                conn.Close();
-//                return lstquestion; 
-//            }
-//            catch (Exception ex)
-//            {
-//                throw new Exception(ex.Message);
-
-//            }
-//        }
 
 //        // ------------------------------------------------------------------------------------------
 //        // Name: Insert Answers TAnswer table 
