@@ -88,39 +88,45 @@
                 user.Password                   = $("#addCustomer_password").val();
                 user.Username                   = $("#addCustomer_email").val(); 
 
-                // check to see if the user is in the system users table if not enter them.  If so inform them
-                $.ajax 
-                ({
-                    type: 'POST',
-                    url: '@Url.Action("AddSystemUser", "Home")',
-                    data: JSON.stringify(user),
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function ()
-                    {
-                        $(".loader").show();
-                    },
-                    success: function (data)
-                    {
-                        console.log(data);
-                        @*$.ajax
+                // Check to see if everything is filled in 
+           
+                if (customer.FirstName && customerAccount.LastName && customerAccount.  .EmailAddress && customerAccount.Address1 && customerAccount.City && customerAccount.State && customerAccount.Zip) {
+
+                    $.ajax
                         ({
                             type: 'POST',
-                            url: '@Url.Action("AddCustomerAccount", "Home")',
-                            data: JSON.stringify(customerAccount),
+                            url: '@Url.Action("AddSystemUser", "Home")',
+                            data: JSON.stringify(user),
                             dataType: 'json',
                             contentType: "application/json; charset=utf-8",
-                            success: function (data)
-                            {
-                        
+                            beforeSend: function () {
+                                $(".loader").show();
                             },
-                        });*@
-                    },
-                    complete: function ()
-                    {
-                        $(".loader").hide();
-                    }
-                });
+                            success: function (data) {
+                                console.log(data);
+                                @*$.ajax
+                                ({
+                                    type: 'POST',
+                                    url: '@Url.Action("AddCustomerAccount", "Home")',
+                                    data: JSON.stringify(customerAccount),
+                                    dataType: 'json',
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (data)
+                                    {
+                        
+                                    },
+                                });*@
+                            },
+                            complete: function () {
+                                $(".loader").hide();
+                            }
+                        });
+                }
+                // check to see if the user is in the system users table if not enter them.  If so inform them
+                else
+                {
+                    alert.show("Please make sure all required fields have values")
+                }
             });
         });
     </script>    
