@@ -68,9 +68,13 @@
 
             $("#createAccount").click(function ()
             {
-               
+                // create customer object to enter into users tables
                 var customerAccount = new Object();
 
+                // create system_users object to enter into system users table
+                var user = new Object();    
+
+                // populate the customer object
                 customerAccount.FirstName       = $("#addCustomer_firstName").val();
                 customerAccount.LastName        = $("#addCustomer_lastName").val();
                 customerAccount.EmailAddress    = $("#addCustomer_email").val();
@@ -79,50 +83,45 @@
                 customerAccount.City            = $("#addCustomer_city").val();
                 customerAccount.State           = $("#addCustomer-State").find(":selected").text();
                 customerAccount.Zip             = $("#addCustomer_zip").val();
-                customerAccount.password        = $("#addCustomer_password").val();
 
-                $.ajax
+                // populate the user
+                user.Password                   = $("#addCustomer_password").val();
+                user.Username                   = $("#addCustomer_email").val(); 
+
+                // check to see if the user is in the system users table if not enter them.  If so inform them
+                $.ajax 
                 ({
                     type: 'POST',
-                    url: '@Url.Action("AddCustomerAccount", "Home")',
-                    data: JSON.stringify(customerAccount),
+                    url: '@Url.Action("AddSystemUser", "Home")',
+                    data: JSON.stringify(user),
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
+                    beforeSend: function ()
+                    {
+                        $(".loader").show();
+                    },
                     success: function (data)
                     {
-                           
+                        console.log(data);
+                        @*$.ajax
+                        ({
+                            type: 'POST',
+                            url: '@Url.Action("AddCustomerAccount", "Home")',
+                            data: JSON.stringify(customerAccount),
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data)
+                            {
+                        
+                            },
+                        });*@
                     },
-
+                    complete: function ()
+                    {
+                        $(".loader").hide();
+                    }
                 });
             });
-            @*$("#createAcccount").click(function ()
-            {
-                // Get form values
-               
-                var customerAccount = new Object();
-
-                customerAccount.FirstName = $("#addCustomer_firstName").val();
-                customerAccount.LastName = $("#addCustomer_lastName").val();
-                customerAccount.EmailAddress = $("#addCustomer_email").val();
-                customerAccount.Address1 = $("#addCustomer_address").val();
-                customerAccount.City = $("#addCustomer_city").val();
-                customerAccount.State = $("#addCustomer-State").find(":selected").text();
-                customerAccount.password = $("#addCustomer_password").val();
-
-                $.ajax
-                ({
-                    type: 'POST',
-                    url: '@Url.Action("AddCustomerAccount", "Employee")',
-                    data: JSON.stringify(filingType),
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data)
-                    {
-                           
-                    },
-
-                });
-            });*@
         });
     </script>    
 }

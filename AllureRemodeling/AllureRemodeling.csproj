@@ -165,6 +165,7 @@
     <Compile Include="Models\Materials.cs" />
     <Compile Include="Models\SHA.cs" />
     <Compile Include="Models\States.cs" />
+    <Compile Include="Models\SystemUsers.cs" />
     <Compile Include="Models\Testimonials.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

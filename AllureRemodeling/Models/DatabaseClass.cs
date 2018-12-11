@@ -9,7 +9,45 @@ namespace AllureRemodeling.Models
 {
 	public class DatabaseClass
 	{
+        // ------------------------------------------------------------------------------------------
+        // Name: CheckForExistingUser
+        // Abstract: checks to see if user is already registered
+        // ------------------------------------------------------------------------------------------
+        public bool CheckForExistingUser (string userName)
+        {
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
 
+            bool exists = false;
+
+            string select = "SELECT * FROM TSystemUsers";
+
+            SqlCommand sql = new SqlCommand(select, cn);
+
+            SqlDataReader reader = sql.ExecuteReader();
+
+            if(reader.HasRows)
+            {
+                exists = true;
+            }
+
+            return exists;
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: InsertSystemUser
+        // Abstract: Adds a customer to the TSystemUsers table
+        // ------------------------------------------------------------------------------------------
+        public bool InsertSystemUser(SystemUsers user)
+        {
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            bool success = false;
+
+            string insert = "INSERT INTO TSystemUser(";
+        }
         // ------------------------------------------------------------------------------------------
         // Name: AddCustomerAccount
         // Abstract: Adds a customer to the TUsers table
@@ -54,7 +92,7 @@ namespace AllureRemodeling.Models
                     // Rick's Connection Strings
                     // ---------------------------
 
-                    string ricksComputer = "user id=capital;" +
+                    string ricksComputer =     "user id=capital;" +
                                                "password=capsoft;server=DESKTOP-AG5QMFS;" +
                                                "Trusted_Connection=yes;" +
                                                "database=Allure;" +
@@ -75,7 +113,6 @@ namespace AllureRemodeling.Models
                     // Francis's Connection String
                     // ---------------------------
                     
-                   
                     sqlConn.ConnectionString = ricksComputer;
 
                     sqlConn.Open();
