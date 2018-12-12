@@ -39,15 +39,15 @@ namespace AllureRemodeling.Models
         // Name: InsertSystemUser
         // Abstract: Adds a customer to the TSystemUsers table
         // ------------------------------------------------------------------------------------------
-        public bool InsertSystemUser(SystemUsers user)
-        {
-            SqlConnection cn = new SqlConnection();
-            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+        //public bool InsertSystemUser(SystemUsers user)
+        //{
+        //    SqlConnection cn = new SqlConnection();
+        //    if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
 
-            bool success = false;
+        //    bool success = false;
 
-            string insert = "INSERT INTO TSystemUser(";
-        }
+        //    string insert = "INSERT INTO TSystemUser(";
+        //}
         // ------------------------------------------------------------------------------------------
         // Name: AddCustomerAccount
         // Abstract: Adds a customer to the TUsers table

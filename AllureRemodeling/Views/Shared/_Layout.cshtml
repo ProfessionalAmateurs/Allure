@@ -57,10 +57,12 @@
     <title>Allure Remodeling and Home Improvement- @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/MainSite.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquery-confirm")
     @RenderSection("scripts", required: false)
 </head>
 <body>
@@ -83,7 +85,7 @@
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Customer Reviews</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Careers</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Request an Estimate</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Create a Profile</u></a>
+                        <a href="@Url.Action("CreateCustomerProfile","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Create a Profile</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
 
                     </form>
@@ -111,5 +113,81 @@
     </div>
   
     <div class="loader"></div>
+
+    <script>
+
+        function showErrorMessage(Title, Message)
+        {
+            $.confirm
+                ({
+                    title: Title,
+                    content: Message,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons:
+                    {
+                        tryAgain:
+                        {
+                            text: 'OK',
+                            btnClass: 'btn-red',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+        }
+
+        function showInfoMessage(Title, Message)
+        {
+            $.confirm
+                ({
+                    title: Title,
+                    content: Message,
+                    type: 'blue',
+                    typeAnimated: true,
+                    buttons:
+                    {
+                        tryAgain:
+                        {
+                            text: 'OK',
+                            btnClass: 'btn-blue',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+        }
+
+        function showSuccessMessage(Title, Message) {
+            $.confirm
+                ({
+                    title: Title,
+                    content: Message,
+                    type: 'green',
+                    typeAnimated: true,
+                    autoClose: 'OK|3000',
+                    buttons:
+                    {
+                        OK:
+                        {
+                            text: 'OK',
+                            btnClass: 'btn-green',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+        }
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+    </script>
 </body>
 </html>

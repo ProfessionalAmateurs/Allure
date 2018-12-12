@@ -90,7 +90,7 @@
 
                 // Check to see if everything is filled in 
            
-                if (customer.FirstName && customerAccount.LastName && customerAccount.  .EmailAddress && customerAccount.Address1 && customerAccount.City && customerAccount.State && customerAccount.Zip) {
+                if (customerAccount.FirstName && customerAccount.LastName && customerAccount.EmailAddress && customerAccount.Address1 && customerAccount.City && customerAccount.State && customerAccount.Zip) {
 
                     $.ajax
                         ({
@@ -125,7 +125,7 @@
                 // check to see if the user is in the system users table if not enter them.  If so inform them
                 else
                 {
-                    alert.show("Please make sure all required fields have values")
+                    showErrorMessage("Incomplete Data","Please make sure all required fields have values")
                 }
             });
         });
