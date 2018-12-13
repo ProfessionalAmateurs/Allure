@@ -1,18 +1,29 @@
-﻿@{
+﻿@model AllureRemodeling.Models.Estimates
+@{
     ViewBag.Title = "Estimate";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}       
+
+
+}
 
 <div class="container">
     <div class="panel" style="margin-top: 15px;">
         <div class="panel-heading" style="background-color:blue ; color: white;">
+
             Estimate Questions
         </div>
         <div class="panel-body" id="estimateQuestionAnswerArea">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
 
         </div>
+        <h3>@ViewBag.Message</h3>
     </div>
+
 </div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 @section Scripts
 {
@@ -46,18 +57,18 @@
                     $("#estimateQuestion_Submit").click(function ()
                     {
                         var estimateAnswers = new Array();
-                        
+
                         for (var i = 0; i < count; i++)
                         {
                             var estimateAnswer = new Object();
-                           
+
                             estimateAnswer.Answer = $("#answer_" + i).val();
                             //estimateQuestionID.QuestionID = $("#question-" + i).val();
                             estimateAnswer.QuestionID = data[i].QuestionID;
                             estimateAnswer.Question = data[i].Question;
 
                             estimateAnswers.push(estimateAnswer);
-                           
+
 
                         }
 
@@ -69,16 +80,15 @@
                             dataType: 'json',
                             contentType: "application/json; charset=utf-8",
                             success: function (data)
-                            { 
+                            {
                                 var redirectURL = '@Url.Action("Index","Home")';
                                 window.location.href = redirectURL;
+
                             },
                         });
-                        
-                        
                     })
                 }
             });
         });
-    </script>   
+    </script>
 }

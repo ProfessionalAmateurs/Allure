@@ -8,6 +8,7 @@ using AllureRemodeling.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.Helpers;
+using System.Collections;
 
 namespace AllureRemodeling.Controllers
 {
@@ -38,7 +39,7 @@ namespace AllureRemodeling.Controllers
 
         public ActionResult Services()
         {
-            ViewBag.Message = "Your Services page.";
+           
 
             return View();
         }
@@ -56,22 +57,65 @@ namespace AllureRemodeling.Controllers
             return Json(questions);
         }
 
-        public JsonResult SubmitAnswers(List<Estimates> estimateAnswers)
+        [HttpPost]
+        public ActionResult SubmitAnswers(List<Estimates> estimateAnswers, Estimates est)
         {
             var success = false;
-            string empty = $@"A Client has sent the following request for estimate";
+          
+            string emailbody = $@"A Client has sent the following request for estimate <br/>";
             for (var i = 0; i < estimateAnswers.Count; i++)
             {
                 success = db.InsertAnswerData(estimateAnswers[i]);
-                empty += estimateAnswers[i].Question + " : <br/>" + estimateAnswers[i].Answer + ". <br/>";
+                emailbody += estimateAnswers[i].Question + " : <br/>" + estimateAnswers[i].Answer + ". <br/>";
             }
-
+          
             Email email = new Email();
-            email.sendEmail(empty, "Estimate Request");
-
-            //SaveRecord();
+            email.sendEmail(emailbody, "Estimate Request");
+            
             return Json(success);
+
+            //SaveRecord();}
         }
+
+        public ActionResult Testimonials()
+        {
+            
+                var Reviews = db.GetReviews();
+
+               
+            return View(Reviews);
+        }
+
+        //GET: testimonial/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Testimonials/Create
+        [HttpPost]
+        public ActionResult Create(Testimonials reviews)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                  
+                    if (db.InsertReviewData(reviews))
+                    {
+                        ViewBag.Message = "Thank you for your testimonial";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
     }
 }
