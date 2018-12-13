@@ -4,11 +4,48 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using AllureRemodeling.Models;
 
 namespace AllureRemodeling.Models
 {
 	public class DatabaseClass
 	{
+
+        // ------------------------------------------------------------------------------------------
+        // Name: Get User
+        // Abstract: get user info
+        // ------------------------------------------------------------------------------------------
+        public sbyte GetUser(ref DataSet ds, ref User user)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+                SqlDataAdapter da = new SqlDataAdapter("GetUser", cn);
+
+                var encryptedPassword = SHA.GenerateSHA512String(user.Password);
+
+                SetParameter(ref da, "@UserName", user.UserName, SqlDbType.VarChar);
+                SetParameter(ref da, "@UserPassword", encryptedPassword, SqlDbType.VarChar);
+
+                da.Fill(ds);
+
+                CloseDBConnection(ref cn); 
+
+                return 0;
+            }
+
+            catch (Exception exc)
+            {
+                // manually logs exception to Elmah
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
+
+                throw new Exception(exc.Message);
+            }
+
+        }
+
+
         // ------------------------------------------------------------------------------------------
         // Name: CheckForExistingUser
         // Abstract: checks to see if user is already registered
@@ -20,7 +57,7 @@ namespace AllureRemodeling.Models
 
             bool exists = false;
 
-            string select = "SELECT * FROM TSystemUsers";
+            string select = "SELECT * FROM TSystemUsers WHERE Username = '" + userName +"'";
 
             SqlCommand sql = new SqlCommand(select, cn);
 
@@ -35,19 +72,50 @@ namespace AllureRemodeling.Models
         }
 
 
-        // ------------------------------------------------------------------------------------------
-        // Name: InsertSystemUser
-        // Abstract: Adds a customer to the TSystemUsers table
-        // ------------------------------------------------------------------------------------------
-        //public bool InsertSystemUser(SystemUsers user)
-        //{
-        //    SqlConnection cn = new SqlConnection();
-        //    if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+         //------------------------------------------------------------------------------------------
+         //Name: InsertSystemUser
+         //Abstract: Adds a customer to the TSystemUsers table
+         //------------------------------------------------------------------------------------------
+        public bool InsertSystemUser(SystemUsers user)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
 
-        //    bool success = false;
+                bool success = false;
 
-        //    string insert = "INSERT INTO TSystemUser(";
-        //}
+                user.RegistrationDate = DateTime.Now;
+                user.LastLogin = DateTime.Now;
+                var encryptedPassword = SHA.GenerateSHA512String(user.Password);
+
+                string insert = @"DECLARE @SystemUserID AS INTEGER
+                                  SELECT @SystemUserID = MAX( SystemUserID ) + 1 
+                                  FROM TSystemUsers
+                                  IF( @SystemUserID IS NULL )
+                                  SELECT  @SystemUserID = 1
+                                  INSERT INTO TSystemUsers(SystemUserID, Username, Password, RegistrationDate, LastLogin, NumberOfLogins)
+                                  VALUES (@SystemUserID, '" + user.Username + "' , '" + encryptedPassword + "' , '" + user.RegistrationDate + "' , '" + user.LastLogin + "' , 1 )";
+
+                SqlCommand sql = new SqlCommand(insert, cn);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    success = true;
+                }
+
+                return success;
+
+            }
+
+            catch (Exception ex) { throw new Exception(ex.Message); }
+
+
+        }
+
+
         // ------------------------------------------------------------------------------------------
         // Name: AddCustomerAccount
         // Abstract: Adds a customer to the TUsers table

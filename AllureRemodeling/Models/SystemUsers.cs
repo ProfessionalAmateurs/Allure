@@ -20,6 +20,8 @@ namespace AllureRemodeling.Models
         public int NumberOfLogins { get; set; }
 
         public string GuidResetPassword{ get; set; }
+
+        public Users users { get; set; }
     }
 }
 

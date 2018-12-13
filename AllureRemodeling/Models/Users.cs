@@ -18,9 +18,9 @@ namespace AllureRemodeling.Models
         public virtual string Zip { get; set; }
         public virtual string PhoneNumber { get; set; }
         public virtual string EmailAddress { get; set; }
-        public virtual string SecurityGroupID { get; set; }
-        public virtual string AccountTypeID { get; set; }
-        public virtual string SystemUserID { get; set; }
+        public virtual int SecurityGroupID { get; set; }
+        public virtual int AccountTypeID { get; set; }
+        public virtual int SystemUserID { get; set; }
         public enum States
         {
             [Description("Alabama")]
