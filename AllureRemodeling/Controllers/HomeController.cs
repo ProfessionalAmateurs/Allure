@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -98,6 +99,128 @@ namespace AllureRemodeling.Controllers
 
             return View();
         }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: PasswordReset
+        // Abstract: show password reset page
+        // -----------------------------------------------------------------------------------------
+        public ActionResult PasswordReset()
+        {
+            // Manually log user out when they navigate to this page 
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+
+            return View();
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: PasswordReset
+        // Abstract: The name says it all
+        // -----------------------------------------------------------------------------------------
+        [HttpPost]
+        public ActionResult PasswordReset(string email)
+        {
+
+            // Verify Email ID
+            DatabaseClass db = new DatabaseClass();
+            DataSet ds = new DataSet();
+            bool result = db.EmailCheck(ref ds, email);
+
+            if (result == true)
+            {
+                //Send email
+                string resetCode = Guid.NewGuid().ToString();
+                SendVerificationEmail(email, resetCode);
+                db.UpdateResetPasswordCode(email, resetCode);
+            }
+
+            return RedirectToAction("Login", "User", new { update = result });
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: SendVerificationEmail
+        // Abstract: Send email to change password
+        // -----------------------------------------------------------------------------------------
+        [NonAction]
+        public void SendVerificationEmail(string EmailId, string resetCode)
+        {
+
+            var verifyURL = "/User/ChangePassword/" + resetCode + "?code=" + resetCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyURL);
+
+            var fromEmail = new MailAddress("admin@govcollect.com", "Capital Software");
+            var toEmail = new MailAddress(EmailId);
+            var fromPassword = "GovC4231";
+            string subject = "Password Reset";
+
+            string body = "</br></br>We received a request to reset your password.  Please click on the link to reset your password. " +
+                                        "<a href='" + link + "'> Reset Password</a>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromPassword)
+
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+
+            })
+                smtp.Send(message);
+        }
+
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: ChangePasword
+        // Abstract: The name says it all
+        // ------------------------------------------------------------------------------------------
+        public ActionResult ChangePassword(Guid id)
+        {
+            DatabaseClass db = new DatabaseClass();
+            DataSet ds = new DataSet();
+            var model = new List<SystemUsers>();
+
+            db.CheckResetCode(ref ds, id);
+
+            if (ds.Tables[0].Rows.Count < 1)
+            {
+                return HttpNotFound();
+            }
+
+            else
+            {
+                ResetPasswordModel resetPassword = new ResetPasswordModel();
+                resetPassword.ResetCode = id.ToString();
+                return View(resetPassword);
+            }
+
+        }
+
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: ChangePassword
+        // Abstract: Updates the password in the system
+        // ------------------------------------------------------------------------------------------
+        public JsonResult UpdatePassword(string updateCode, string newPassword)
+        {
+            DatabaseClass db = new DatabaseClass();
+
+            bool success = db.UpdateUserPassword(updateCode, newPassword);
+
+            return Json(success);
+        }
+
 
         public ActionResult Index()
         {

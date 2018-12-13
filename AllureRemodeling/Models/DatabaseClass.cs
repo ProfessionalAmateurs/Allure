@@ -35,13 +35,7 @@ namespace AllureRemodeling.Models
                 return 0;
             }
 
-            catch (Exception exc)
-            {
-                // manually logs exception to Elmah
-                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
-
-                throw new Exception(exc.Message);
-            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
 
         }
 
@@ -115,6 +109,129 @@ namespace AllureRemodeling.Models
 
         }
 
+        // ------------------------------------------------------------------------------------------
+        // Name: EmailCheck
+        // Abstract: Checks to see if email provided is a associated with an account 
+        // ------------------------------------------------------------------------------------------
+        public bool EmailCheck(ref DataSet ds, string email)
+        {
+            try
+            {
+                bool result = false;
+                //connect
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return false;
+                SqlDataAdapter da = new SqlDataAdapter("CheckEmail", cn);
+
+                SetParameter(ref da, "@Email", email, SqlDbType.VarChar);
+                try
+                {
+                    // Fill the DataAdapter with the results
+                    da.Fill(ds);
+                }
+
+                catch (Exception ex) { throw new Exception(ex.Message); }
+
+                //Close the connection
+                finally { CloseDBConnection(ref cn); }
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: UpdateResetPasswordCode
+        // Abstract: add reset password code to database if user is resetting password
+        // ------------------------------------------------------------------------------------------
+        public sbyte UpdateResetPasswordCode(string emailID, string resetCode)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+
+                // Tax payer 
+                SqlCommand sql = new SqlCommand("UpdateResetPasswordCode", cn);
+                sql.CommandType = CommandType.StoredProcedure;
+
+                sql.Parameters.AddWithValue("@Email", emailID);
+                sql.Parameters.AddWithValue("@PasswordCode", resetCode);
+
+                sql.ExecuteNonQuery();
+
+                CloseDBConnection(ref cn);
+
+                return 0;
+            }
+
+            catch (Exception exc) { throw new Exception(exc.Message); }
+
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: CheckResetCode
+        // Abstract: Check to see if the user has requested a reset password code
+        // ------------------------------------------------------------------------------------------
+        public sbyte CheckResetCode(ref DataSet ds, Guid resetCode)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+                SqlDataAdapter da = new SqlDataAdapter("CheckResetCode", cn);
+
+                SetParameter(ref da, "@ResetCode", resetCode, SqlDbType.UniqueIdentifier);
+
+                try
+                {
+                    da.Fill(ds);
+                }
+
+                finally { CloseDBConnection(ref cn); }
+
+                return 0;
+            }
+
+
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: UpdateTaxPayerPassword
+        // Abstract: Updates the password in the system
+        // ------------------------------------------------------------------------------------------
+        public bool UpdateUserPassword(string resetCode, string newPassword)
+        {
+            try
+            {
+                var result = false;
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Failed to connect to database");
+
+                string updateStatement = @"Update System_Users
+                                           SET Password = '" + SHA.GenerateSHA512String(newPassword) + "'" +
+                                            " ,ResetPasswordCode = NULL" +
+                                          " WHERE ResetPasswordCode = '" + resetCode + "'";
+
+                SqlCommand sql = new SqlCommand(updateStatement, cn);
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected >= 0)
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
 
         // ------------------------------------------------------------------------------------------
         // Name: AddCustomerAccount
