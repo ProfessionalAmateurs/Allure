@@ -24,7 +24,11 @@ namespace AllureRemodeling
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                         "~/Content/jquery-confirm.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-confirm").Include(
+              "~/Scripts/jquery-confirm.js"));
         }
     }
 }

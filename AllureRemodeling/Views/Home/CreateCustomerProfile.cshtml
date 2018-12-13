@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_address1">Address</label>
-                <input id="addCustomer_address2" class="form-control" type="text" placeholder="Address" />
+                <input id="addCustomer_address1" class="form-control" type="text" placeholder="Address" />
             </div>
             <div class="col-md-4" style="padding-bottom: 15px;">
                 <label for="addCustomer_address2">Address 2</label>
@@ -68,9 +68,13 @@
 
             $("#createAccount").click(function ()
             {
-               
+                // create customer object to enter into users tables
                 var customerAccount = new Object();
 
+                // create system_users object to enter into system users table
+                var user = new Object();    
+
+                // populate the customer object
                 customerAccount.FirstName       = $("#addCustomer_firstName").val();
                 customerAccount.LastName        = $("#addCustomer_lastName").val();
                 customerAccount.EmailAddress    = $("#addCustomer_email").val();
@@ -79,50 +83,86 @@
                 customerAccount.City            = $("#addCustomer_city").val();
                 customerAccount.State           = $("#addCustomer-State").find(":selected").text();
                 customerAccount.Zip             = $("#addCustomer_zip").val();
-                customerAccount.password        = $("#addCustomer_password").val();
 
-                $.ajax
-                ({
-                    type: 'POST',
-                    url: '@Url.Action("AddCustomerAccount", "Home")',
-                    data: JSON.stringify(customerAccount),
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data)
+                // populate the user
+                user.Password                   = $("#addCustomer_password").val();
+                user.Username                   = $("#addCustomer_email").val(); 
+                confirmPassword                 = $("#addCustomer_confirmpassword").val();
+                if (user.Password != confirmPassword) {
+                    showErrorMessage("Passwords Do Not Match", "Please retype your password");
+                }
+                // Check to see if everything is filled in 
+                else
+                {
+                    if (customerAccount.FirstName && customerAccount.LastName && customerAccount.EmailAddress && customerAccount.Address1 && customerAccount.City && customerAccount.State && customerAccount.Zip)
                     {
-                           
-                    },
 
-                });
+                        $.ajax
+                        ({
+                            type: 'POST',
+                            url: '@Url.Action("AddSystemUser", "Home")',
+                            data: JSON.stringify(user),
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            beforeSend: function () 
+                            {
+                                $(".loader").show();
+                            },
+                            success: function (data) 
+                            {
+                                if (data == true) {
+                                    $.ajax
+                                        ({
+                                            type: 'POST',
+                                            url: '@Url.Action("AddCustomerAccount", "Home")',
+                                            data: JSON.stringify(customerAccount),
+                                            dataType: 'json',
+                                            contentType: "application/json; charset=utf-8",
+                                            success: function (data)
+                                            {
+                                                $.confirm
+                                                ({
+                                                    title: "Account Created",
+                                                    content: "Your account has been created.  You may go to the login screen",
+                                                    type: 'green',
+                                                    typeAnimated: true,
+                                                    autoClose: 'OK|3000',
+                                                    buttons:
+                                                    {
+                                                        OK:
+                                                        {
+                                                            text: 'OK',
+                                                            btnClass: 'btn-green',
+                                                            action: function ()
+                                                            {
+                                                                 var redirectURL = '@Url.Action("Index", "Home")';
+                                                                 window.location.href = redirectURL;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            },
+                                        });
+                                }
+
+                                else
+                                {
+                                    showErrorMessage("Account Already Exists", "There is already an account associated with this email address.  If you forgot your password please go to the login screen and select forgot password")
+                                }
+                               
+                            },
+                            complete: function () {
+                                $(".loader").hide();
+                            }
+                        });
+                    }
+                    // check to see if the user is in the system users table if not enter them.  If so inform them
+                    else
+                    {
+                        showErrorMessage("Incomplete Data","Please make sure all required fields have values")
+                    }
+                }
             });
-            @*$("#createAcccount").click(function ()
-            {
-                // Get form values
-               
-                var customerAccount = new Object();
-
-                customerAccount.FirstName = $("#addCustomer_firstName").val();
-                customerAccount.LastName = $("#addCustomer_lastName").val();
-                customerAccount.EmailAddress = $("#addCustomer_email").val();
-                customerAccount.Address1 = $("#addCustomer_address").val();
-                customerAccount.City = $("#addCustomer_city").val();
-                customerAccount.State = $("#addCustomer-State").find(":selected").text();
-                customerAccount.password = $("#addCustomer_password").val();
-
-                $.ajax
-                ({
-                    type: 'POST',
-                    url: '@Url.Action("AddCustomerAccount", "Employee")',
-                    data: JSON.stringify(filingType),
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data)
-                    {
-                           
-                    },
-
-                });
-            });*@
         });
     </script>    
 }

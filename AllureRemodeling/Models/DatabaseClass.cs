@@ -4,9 +4,131 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using AllureRemodeling.Models;
 
 namespace AllureRemodeling.Models
 {
+	public class DatabaseClass
+	{
+
+        // ------------------------------------------------------------------------------------------
+        // Name: Get User
+        // Abstract: get user info
+        // ------------------------------------------------------------------------------------------
+        public sbyte GetUser(ref DataSet ds, ref User user)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+                SqlDataAdapter da = new SqlDataAdapter("GetUser", cn);
+
+                var encryptedPassword = SHA.GenerateSHA512String(user.Password);
+
+                SetParameter(ref da, "@UserName", user.UserName, SqlDbType.VarChar);
+                SetParameter(ref da, "@UserPassword", encryptedPassword, SqlDbType.VarChar);
+
+                da.Fill(ds);
+
+                CloseDBConnection(ref cn); 
+
+                return 0;
+            }
+
+            catch (Exception ex) { throw new Exception(ex.Message); }
+
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: CheckForExistingUser
+        // Abstract: checks to see if user is already registered
+        // ------------------------------------------------------------------------------------------
+        public bool CheckForExistingUser (string userName)
+        {
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            bool exists = false;
+
+            string select = "SELECT * FROM TSystemUsers WHERE Username = '" + userName +"'";
+
+            SqlCommand sql = new SqlCommand(select, cn);
+
+            SqlDataReader reader = sql.ExecuteReader();
+
+            if(reader.HasRows)
+            {
+                exists = true;
+            }
+
+            return exists;
+        }
+
+
+         //------------------------------------------------------------------------------------------
+         //Name: InsertSystemUser
+         //Abstract: Adds a customer to the TSystemUsers table
+         //------------------------------------------------------------------------------------------
+        public bool InsertSystemUser(SystemUsers user)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+                bool success = false;
+
+                user.RegistrationDate = DateTime.Now;
+                user.LastLogin = DateTime.Now;
+                var encryptedPassword = SHA.GenerateSHA512String(user.Password);
+
+                string insert = @"DECLARE @SystemUserID AS INTEGER
+                                  SELECT @SystemUserID = MAX( SystemUserID ) + 1 
+                                  FROM TSystemUsers
+                                  IF( @SystemUserID IS NULL )
+                                  SELECT  @SystemUserID = 1
+                                  INSERT INTO TSystemUsers(SystemUserID, Username, Password, RegistrationDate, LastLogin, NumberOfLogins)
+                                  VALUES (@SystemUserID, '" + user.Username + "' , '" + encryptedPassword + "' , '" + user.RegistrationDate + "' , '" + user.LastLogin + "' , 1 )";
+
+                SqlCommand sql = new SqlCommand(insert, cn);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    success = true;
+                }
+
+                return success;
+
+            }
+
+            catch (Exception ex) { throw new Exception(ex.Message); }
+
+
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: EmailCheck
+        // Abstract: Checks to see if email provided is a associated with an account 
+        // ------------------------------------------------------------------------------------------
+        public bool EmailCheck(ref DataSet ds, string email)
+        {
+            try
+            {
+                bool result = false;
+                //connect
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return false;
+                SqlDataAdapter da = new SqlDataAdapter("CheckEmail", cn);
+
+                SetParameter(ref da, "@Email", email, SqlDbType.VarChar);
+                try
+                {
+                    // Fill the DataAdapter with the results
+                    da.Fill(ds);
+                }
     public class DatabaseClass
     {
         //------------------------------------------------------------------------------------------
@@ -35,6 +157,21 @@ namespace AllureRemodeling.Models
 
                 estimateQuestions.Add(estimates);
             }
+
+                catch (Exception ex) { throw new Exception(ex.Message); }
+
+                //Close the connection
+                finally { CloseDBConnection(ref cn); }
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
 
             CloseDBConnection(ref cn);
 
@@ -148,6 +285,94 @@ namespace AllureRemodeling.Models
         }
             
         // ------------------------------------------------------------------------------------------
+        // Name: UpdateResetPasswordCode
+        // Abstract: add reset password code to database if user is resetting password
+        // ------------------------------------------------------------------------------------------
+        public sbyte UpdateResetPasswordCode(string emailID, string resetCode)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+
+                // Tax payer 
+                SqlCommand sql = new SqlCommand("UpdateResetPasswordCode", cn);
+                sql.CommandType = CommandType.StoredProcedure;
+
+                sql.Parameters.AddWithValue("@Email", emailID);
+                sql.Parameters.AddWithValue("@PasswordCode", resetCode);
+
+                sql.ExecuteNonQuery();
+
+                CloseDBConnection(ref cn);
+
+                return 0;
+            }
+
+            catch (Exception exc) { throw new Exception(exc.Message); }
+
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Name: CheckResetCode
+        // Abstract: Check to see if the user has requested a reset password code
+        // ------------------------------------------------------------------------------------------
+        public sbyte CheckResetCode(ref DataSet ds, Guid resetCode)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) return -1;
+                SqlDataAdapter da = new SqlDataAdapter("CheckResetCode", cn);
+
+                SetParameter(ref da, "@ResetCode", resetCode, SqlDbType.UniqueIdentifier);
+
+                try
+                {
+                    da.Fill(ds);
+                }
+
+                finally { CloseDBConnection(ref cn); }
+
+                return 0;
+            }
+
+
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: UpdateTaxPayerPassword
+        // Abstract: Updates the password in the system
+        // ------------------------------------------------------------------------------------------
+        public bool UpdateUserPassword(string resetCode, string newPassword)
+        {
+            try
+            {
+                var result = false;
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Failed to connect to database");
+
+                string updateStatement = @"Update System_Users
+                                           SET Password = '" + SHA.GenerateSHA512String(newPassword) + "'" +
+                                            " ,ResetPasswordCode = NULL" +
+                                          " WHERE ResetPasswordCode = '" + resetCode + "'";
+
+                SqlCommand sql = new SqlCommand(updateStatement, cn);
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected >= 0)
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+            catch (Exception exc) { throw new Exception(exc.Message); }
+        }
+
+        // ------------------------------------------------------------------------------------------
         // Name: AddCustomerAccount
         // Abstract: Adds a customer to the TUsers table
         // ------------------------------------------------------------------------------------------
@@ -191,7 +416,7 @@ namespace AllureRemodeling.Models
                     // Rick's Connection Strings
                     // ---------------------------
 
-                    string ricksComputer = "user id=capital;" +
+                    string ricksComputer =     "user id=capital;" +
                                                "password=capsoft;server=DESKTOP-AG5QMFS;" +
                                                "Trusted_Connection=yes;" +
                                                "database=Allure;" +
@@ -212,9 +437,8 @@ namespace AllureRemodeling.Models
                     // ---------------------------
                     // Francis's Connection String
                     // ---------------------------
-
-
-                    sqlConn.ConnectionString = saniaComputer;
+                    
+                    sqlConn.ConnectionString = ricksComputer;
 
                     sqlConn.Open();
                 }
