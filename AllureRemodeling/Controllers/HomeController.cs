@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllureRemodeling.Models;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Helpers;
+using System.Collections;
 
 namespace AllureRemodeling.Controllers
 {
@@ -30,7 +34,7 @@ namespace AllureRemodeling.Controllers
 
         public ActionResult Services()
         {
-            ViewBag.Message = "Your Services page.";
+           
 
             return View();
         }
@@ -52,12 +56,69 @@ namespace AllureRemodeling.Controllers
         }
 
         public JsonResult AddCustomerAccount(Users customerAccount)
+        [HttpPost]
+        public ActionResult SubmitAnswers(List<Estimates> estimateAnswers, Estimates est)
         {
+            var success = false;
+          
+            string emailbody = $@"A Client has sent the following request for estimate <br/>";
+            for (var i = 0; i < estimateAnswers.Count; i++)
+            {
+                success = db.InsertAnswerData(estimateAnswers[i]);
+                emailbody += estimateAnswers[i].Question + " : <br/>" + estimateAnswers[i].Answer + ". <br/>";
+            }
+          
+            Email email = new Email();
+            email.sendEmail(emailbody, "Estimate Request");
+            
             DatabaseClass db = new DatabaseClass();
 
             var success = db.AddCustomerAccount(customerAccount);
 
             return Json(success);
+
+            //SaveRecord();}
+        }
+
+        public ActionResult Testimonials()
+        {
+            
+                var Reviews = db.GetReviews();
+
+               
+            return View(Reviews);
+        }
+
+        //GET: testimonial/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Testimonials/Create
+        [HttpPost]
+        public ActionResult Create(Testimonials reviews)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                  
+                    if (db.InsertReviewData(reviews))
+                    {
+                        ViewBag.Message = "Thank you for your testimonial";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         }
         //public JsonResult GetPicture()
         //{
