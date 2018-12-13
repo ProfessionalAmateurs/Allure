@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using AllureRemodeling.Models;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Helpers;
+using System.Collections;
 
 namespace AllureRemodeling.Controllers
 {
+    
+
     public class HomeController : Controller
     {
+        DatabaseClass db = new DatabaseClass();
+
         public ActionResult Index()
         {
             return View();
@@ -30,45 +39,82 @@ namespace AllureRemodeling.Controllers
 
         public ActionResult Services()
         {
-            ViewBag.Message = "Your Services page.";
+           
 
             return View();
         }
 
-        public ActionResult CreateCustomerProfile()
+
+        public ActionResult Estimate()
         {
+            return View();
+        }
+
+        public JsonResult GetEstimateQuestion()
+        {
+            var questions = db.GetEstimateQuestions();
+
+            return Json(questions);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitAnswers(List<Estimates> estimateAnswers, Estimates est)
+        {
+            var success = false;
+          
+            string emailbody = $@"A Client has sent the following request for estimate <br/>";
+            for (var i = 0; i < estimateAnswers.Count; i++)
+            {
+                success = db.InsertAnswerData(estimateAnswers[i]);
+                emailbody += estimateAnswers[i].Question + " : <br/>" + estimateAnswers[i].Answer + ". <br/>";
+            }
+          
+            Email email = new Email();
+            email.sendEmail(emailbody, "Estimate Request");
+            
+            return Json(success);
+
+            //SaveRecord();}
+        }
+
+        public ActionResult Testimonials()
+        {
+            
+                var Reviews = db.GetReviews();
+
+               
+            return View(Reviews);
+        }
+
+        //GET: testimonial/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Testimonials/Create
+        [HttpPost]
+        public ActionResult Create(Testimonials reviews)
+        {
+
             try
+            {
+                if (ModelState.IsValid)
+                {
+                  
+                    if (db.InsertReviewData(reviews))
+                    {
+                        ViewBag.Message = "Thank you for your testimonial";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
             {
                 return View();
             }
-
-            catch (Exception exc)
-            {
-                // manually logs exception to Elmah
-                Elmah.ErrorSignal.FromCurrentContext().Raise(exc);
-
-                throw new Exception(exc.Message);
-            }
         }
-
-        public JsonResult AddCustomerAccount(Users customerAccount)
-        {
-            DatabaseClass db = new DatabaseClass();
-
-            var success = db.AddCustomerAccount(customerAccount);
-
-            return Json(success);
-        }
-        //public JsonResult GetPicture()
-        //{
-        //    DatabaseClass db = new DatabaseClass();
-
-        //    var picture = db.GetPicture();
-
-        //    return Json(picture);
-        //}
-
-
 
 
     }
