@@ -88,7 +88,7 @@ namespace AllureRemodeling.Models
 
             var reviews = new List<Testimonials>();
 
-            string select = "SELECT Testimonial, LastName + ',' + FirstName AS Name FROM TTestimonials left join TUsers on TTestimonials.UserID = TUsers.UserID";
+            string select = "SELECT Testimonial,Date, LastName + ',' + FirstName AS Name FROM TTestimonials left join TUsers on TTestimonials.UserID = TUsers.UserID";
 
             SqlCommand sql = new SqlCommand(select, cn);
 
@@ -100,6 +100,7 @@ namespace AllureRemodeling.Models
 
                 testimonials.Testimonial = reader["Testimonial"].ToString();
                 testimonials.Name = reader["Name"].ToString();
+                testimonials.Date = Convert.ToDateTime(reader["Date"]);
 
                 reviews.Add(testimonials);
             }
