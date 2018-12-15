@@ -100,6 +100,7 @@ namespace AllureRemodeling.Models
 
                 testimonials.Testimonial = reader["Testimonial"].ToString();
                 testimonials.Name = reader["Name"].ToString();
+                testimonials.Date = Convert.ToDateTime(reader["Date"]);
 
                 reviews.Add(testimonials);
             }
@@ -173,7 +174,7 @@ namespace AllureRemodeling.Models
                     // ---------------------------
                     // Shareese's Connection Strings
                     // ---------------------------
-
+                    string shareeseComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
 
                     // ---------------------------
                     // Saniya's Connection Strings
@@ -186,7 +187,7 @@ namespace AllureRemodeling.Models
                     // ---------------------------
 
 
-                    sqlConn.ConnectionString = saniaComputer;
+                    sqlConn.ConnectionString = shareeseComputer;
 
                     sqlConn.Open();
                 }

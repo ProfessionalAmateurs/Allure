@@ -1,64 +1,17 @@
-﻿@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Allure Remodeling", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Services", "Services", "Home")</li>
-                    <li>@Html.ActionLink("Gallery", "Gallery", "Home")</li>
-                    <li>@Html.ActionLink("Reviews", "Reviews", "Home")</li>
-                    <li>@Html.ActionLink("Careers", "Careers", "Home")</li>
-                    <li>@Html.ActionLink("Estimate", "Estimate", "Home")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
-                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>*@
-
-@*My code is below but I did not delete anything so that you can look at both*@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allure Remodeling and Home Improvement- @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/MainSite.css" rel="stylesheet" />
+    @RenderSection("Styles", false)
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </head>
 <body>
     <div class="container-fullwidth page-header">
@@ -73,8 +26,8 @@
                 </div>
                 <nav class="navbar-expand-lg border border-dark ">
                     <form>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Home</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>About Us</u></a>
+                        <a href="@Url.Action("Index","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Home</u></a>
+                        <a href="@Url.Action("About","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>About Us</u></a>
                         <a href="@Url.Action("Services", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Services</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Gallery</u></a>
                         <a href="@Url.Action("Testimonials", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Customer Reviews</u></a>
@@ -82,7 +35,6 @@
                         <a href="@Url.Action("Estimate", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Request an Estimate</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Create an Profile</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
-
                     </form>
                 </nav>
             </div>
@@ -106,8 +58,6 @@
             <p>&copy; @DateTime.Now.Year - Allure Remodeling and Home Improvement</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+   
 </body>
 </html>

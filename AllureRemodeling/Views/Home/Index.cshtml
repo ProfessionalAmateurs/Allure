@@ -1,8 +1,245 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model AllureRemodeling.Models.EmailClass
+
+@section Styles {
+    <link href="@Url.Content("~/Content/IndexStyling.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="jumbotron">
-    This is the home page
+
+<div class="row">
+    <div id="MainContainer" class="container-fluid col-md-12" style="margin-left:0px;">
+        <div class="row">
+            <div id="SidePanel" class="container-fullwidth col-md-3 border-dark">
+                <div class="container-fullwidth">
+                    <div id="ReviewOne" class="h-26 d-inline-block border border-dark" style="height: 251px; width: 300px; text-align:center;">
+                        <p id="Review1" ></p>
+                        <p><a href="@Url.Action("Testimonials","Home")" class="navbar-link"> Click here to see more reviews</a></p>
+                    </div>
+                </div>
+                <div class="container-fullwidth">
+                    <div id="ReviewTwo" class="h-26 d-inline-block border border-dark" style="height: 251px; width: 300px; text-align:center;">
+                        <p id="Review2"></p>
+                        <p><a href="@Url.Action("Testimonials","Home")" class="navbar-link"> Click here to see more reviews</a></p>
+                    </div>
+                </div>
+
+                <div class="container-fullwidth">
+                    <div id="ReviewThree" class="h-26 d-inline-block border border-dark" style="height: 251px; width: 300px; text-align:center;">
+                        <p id="Review3"></p>
+                        <p><a href="@Url.Action("Testimonials","Home")" class="navbar-link"> Click here to see more reviews</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="SliderContainer" class="container-fluid col-md-9 border border-dark bg-light" style="margin-left:0px;">
+                <div id="photo-slider" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#photo-slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#photo-slider" data-slide-to="1"></li>
+                    </ol>
+
+                    @*first slides*@
+                    <div id="firstInnerSlide" class="carousel-inner col-md-12 bg-light ">
+                        <div class="item active col-md-12 bg-light">
+                            <picture>
+                                <img id="SliderOneImageOne" class="img-thumbnail img-fluid " src="~/Content/images/Remodel-capture 2 - Copy.JPG" alt="placeholder" />
+                                <img id="SliderOneImageTwo" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 6 - Copy.JPG" alt="placeholder" />
+                                <img id="SliderOneImageThree" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 8 - Copy.JPG" alt="placeholder"/>
+                                <img id="SliderOneImageFour" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 10 - Copy.JPG" alt="placeholder" />
+
+                            </picture>
+                        </div>
+                        @*second slides*@
+                        <div id="secondInnerSlide" class="item col-md-12 bg-light">
+                            <picture>
+                                <img id="SliderTwoImageOne" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 7 - Copy.JPG" alt="placeholder" />
+                                <img id="SliderTwoImageTwo" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 12 - Copy.JPG" alt="placeholder"/>
+                                <img id="SliderTwoImageThree" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 13 - Copy.JPG" alt="placeholder"/>
+                                <img id="SliderTwoImageFour" class="img-thumbnail img-fluid" src="~/Content/images/Remodel-capture 4 - Copy.JPG" alt="placeholder" />
+
+                            </picture>
+                        </div>
+                    </div>
+                    @*Controls for photo slider*@
+                    <a class="carousel-control-prev " href="#photo-slider" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#photo-slider" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                @* Blue divider *@
+                <div id="BlueDivider" class="container-fullwidth col-md-12 text-dark border border-dark">
+                </div>
+                <div id="AboutUsContainer" class="h-90 d-inline-block" style="height: 467px; text-align:center;">
+                    <p id="AboutUsBio">
+                    </p>
+                    <p><a href="@Url.Action("About","Home")" class="navbar-link"> Click here to learn more about Allure</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*form*@
+    <div id="ContactContainer" class="container-fluid col-md-12 border border-dark">
+        <div class="panel" style="margin-top: 15px;">
+            <div class="panel-heading" style="background-color: darkblue; color: white;">
+                <h1>Contact Us</h1>
+            </div>
+            <form action="@Url.Action("Index","Home")" id="ContactUs">
+
+                <div class="panel-body">
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.FirstName)
+                        @Html.TextBoxFor(m => m.FirstName, new { @id = "NewContact_firstName", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.LastName)
+                        @Html.TextBoxFor(m => m.LastName, new { @id = "NewContact_lastName", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.PhoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @id = "NewContact_phoneNumber", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.EmailAddress)
+                        @Html.TextBoxFor(m => m.EmailAddress, new { @id = "NewContact_emailAddress", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.Address1)
+                        @Html.TextBoxFor(m => m.Address1, new { @id = "NewContact_address1", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.Address2)
+                        @Html.TextBoxFor(m => m.Address2, new { @id = "NewContact_address2", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.City)
+                        @Html.TextBoxFor(m => m.City, new { @id = "NewContact_city", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.Zip)
+                        @Html.TextBoxFor(m => m.Zip, new { @id = "NewContact_zip", @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px;">
+
+                        @Html.LabelFor(m => m.State)
+                        @Html.TextBoxFor(m => m.State, new { @id = "NewContact_state", @class = "form-control" })
+
+                    </div>
+                    <div class=" col-md-12" style="margin-top: 30px;">
+                        @Html.Label("Additional Comments")
+                        @Html.TextAreaFor(m => m.AdditionalComments, new { @id = "NewContact_additionalComments", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-3" style="margin-top: 5px;">
+                    <input type="button" class="btn btn-primary" id="submitButton" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
+@section Scripts
+{
+    <script>
+        $(function () {
+
+            $('#AboutUsBio').load('/Home/About #bioContainer');
+            $('#Review1').load('/Home/Testimonials #testimonial1');
+            $('#Review2').load('/Home/Testimonials #testimonial2');
+            $('#Review3').load('/Home/Testimonials #testimonial3');
+        })
+    </script>
+    <script>
+        $(function () {
+
+            $("#submitButton").click(function () {
+
+                var NewContact = new Object();
+
+                NewContact.FirstName            = $("#NewContact_firstName").val();
+                NewContact.LastName             = $("#NewContact_lastName").val();
+                NewContact.PhoneNumber          = $("#NewContact_phoneNumber").val();
+                NewContact.EmailAddress         = $("#NewContact_emailAddress").val();
+                NewContact.Address1             = $("#NewContact_address1").val();
+                NewContact.Address2             = $("#NewContact_address2").val();
+                NewContact.City                 = $("#NewContact_city").val();
+                NewContact.State                = $("#NewContact_state").val();
+                NewContact.Zip                  = $("#NewContact_zip").val();
+                NewContact.AdditionalComments = $("#NewContact_additionalComments").val();
+                if (NewContact.FirstName && NewContact.LastName && NewContact.EmailAddress && NewContact.Address1 && NewContact.City && NewContact.State && NewContact.Zip && NewContact.PhoneNumber) {
+                    if (isValidEmailAddress(NewContact.EmailAddress)) {
+                        if (isValidPhoneNumber(NewContact.PhoneNumber)) {
+                            if (isValidZipCode(NewContact.Zip)) {
+                        $.ajax
+                            ({
+                                type: 'POST',
+                                url: '@Url.Action("EmailNewContact", "Home")',
+                                data: JSON.stringify(NewContact),
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                beforeSend: function () {
+                                    $(".loader").show();
+                                },
+                                success: function (data) {
+                                    alert("Email was sent successfully.");
+                                },
+                                complete: function () {
+                                    $(".loader").hide();
+                                }
+                                });
+                        } else {
+
+                                alert("Zip code is invalid. Please review field and resubmit.");
+                        }
+                    } else {
+
+                        alert("Phone Number is invalid. Please review field and resubmit.");
+                        }
+                    } else {
+
+                        alert("Email address is invalid. Please review field and resubmit.");
+                    }
+                }else {
+
+                    alert("Form was unable to be sent. Please review fields for empty values and resubmit.");
+                }
+            })
+        })
+
+        function isValidEmailAddress(emailAddress) {
+        var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+         return pattern.test(emailAddress);
+        };
+
+        function isValidPhoneNumber(PhoneNumber) {
+            var pattern = new RegExp(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im);
+            return pattern.test(PhoneNumber);
+        };
+
+        function isValidZipCode(ZipCode) {
+            var pattern = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+            return pattern.test(ZipCode);
+        };
+
+
+    </script>
+
+}

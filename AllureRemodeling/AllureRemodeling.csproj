@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Models\DatabaseClass.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\EmailClass.cs" />
     <Compile Include="Models\Estimates.cs" />
     <Compile Include="Models\Jobs.cs" />
     <Compile Include="Models\Materials.cs" />
@@ -170,6 +171,19 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\allureforblue.jpg" />
+    <Content Include="Content\images\Remodel-capture 10 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 12 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 13 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 2 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 4 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 6 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 7 - Copy.JPG" />
+    <Content Include="Content\images\Remodel-capture 8 - Copy.JPG" />
+    <Content Include="Content\images\smaller-logo.jpg" />
+    <Content Include="Content\images\work.JPG" />
+    <Content Include="Content\images\work1.JPG" />
+    <Content Include="Content\IndexStyling.css" />
     <Content Include="Content\MainSite.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -204,13 +218,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Services.cshtml" />
     <Content Include="Views\Home\Estimate.cshtml" />
     <Content Include="Views\Home\Testimonials.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
