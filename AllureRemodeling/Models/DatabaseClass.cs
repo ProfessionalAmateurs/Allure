@@ -426,18 +426,20 @@ namespace AllureRemodeling.Models
                     // ---------------------------
                     // Shareese's Connection Strings
                     // ---------------------------
-                    
+                    string shareeseComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
+
 
                     // ---------------------------
                     // Saniya's Connection Strings
                     // ---------------------------
-         
+                    string saniaComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Saniya\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
+
 
                     // ---------------------------
                     // Francis's Connection String
                     // ---------------------------
-                    
-                    sqlConn.ConnectionString = ricksComputer;
+
+                    sqlConn.ConnectionString = saniaComputer;
 
                     sqlConn.Open();
                 }
