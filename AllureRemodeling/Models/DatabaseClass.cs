@@ -9,6 +9,143 @@ namespace AllureRemodeling.Models
 {
     public class DatabaseClass
     {
+        public bool AddMaterial(Materials material)
+        {
+
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+                bool success = false;
+                string cmdString = "Insert into TMaterials (Description, Price) Values (@Description, @Price)";
+
+                SqlCommand sql = new SqlCommand(cmdString, cn);
+                sql.Parameters.AddWithValue("@Description", material.Description);
+                sql.Parameters.AddWithValue("@Price", material.Price);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    success = true;
+                }
+
+                CloseDBConnection(ref cn);
+                return success;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+        }
+        
+
+        public List<Materials> GetMaterialDetails()
+        {
+            SqlConnection conn;
+            conn = new
+            SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30");
+            List<Materials> Materiallist = new List<Materials>();
+
+            SqlCommand cmd = new SqlCommand("GetMaterialDetails", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            conn.Open();
+            sd.Fill(dt);
+            conn.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Materiallist.Add(
+                    new Materials
+                    {
+                        MaterialID = Convert.ToInt32(dr["MaterialId"]),
+                        Description = Convert.ToString(dr["Description"]),
+                        Price = Convert.ToString(dr["Price"]),
+                       
+                    });
+            }
+            return Materiallist;
+        }
+
+        public bool UpdateMaterialDetails(Materials material)
+        {
+            try
+            { //Not sure about this code but the MaterialId is coming in as 0
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+                bool success = false;
+                string cmdString = "UPDATE TMaterials SET(Description = @Description, Price = @Price WHERE MaterialId = @MaterialId)";
+
+                SqlCommand sql = new SqlCommand(cmdString, cn);
+                sql.Parameters.AddWithValue("@MaterialId", material.MaterialID);
+                sql.Parameters.AddWithValue("@Description", material.Description);
+                sql.Parameters.AddWithValue("@Price", material.Price);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    success = true;
+                }
+
+                CloseDBConnection(ref cn);
+                return success;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+            //SqlConnection conn;
+            //conn = new
+            //SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30");
+
+            //SqlCommand cmd = new SqlCommand("UpdateMaterialDetails", conn);
+            //cmd.CommandType = CommandType.StoredProcedure;
+
+            //cmd.Parameters.AddWithValue("@MaterialId", material.MaterialID);
+            //cmd.Parameters.AddWithValue("@Description", material.Description);
+            //cmd.Parameters.AddWithValue("@Price", material.Price);
+
+            //conn.Open();
+            //int i = cmd.ExecuteNonQuery();
+            //conn.Close();
+
+            //if (i >= 1)
+            //    return true;
+            //else
+            //    return false;
+        }
+
+        public bool DeleteMaterial(int MaterialId)
+        {
+            SqlConnection conn;
+            conn = new
+            SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30");
+
+            SqlCommand cmd = new SqlCommand("DeleteMaterial", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@MaterialId", MaterialId);
+
+            conn.Open();
+            int i = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (i >= 1)
+                return true;
+            else
+                return false;
+        }
         //------------------------------------------------------------------------------------------
         // Name: GetEstimateQuestions
         // Abstract: get estimate questions
@@ -187,7 +324,7 @@ namespace AllureRemodeling.Models
                     // ---------------------------
 
 
-                    sqlConn.ConnectionString = saniaComputer;
+                    sqlConn.ConnectionString = shareeseComputer;
 
                     sqlConn.Open();
                 }

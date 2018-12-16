@@ -18,6 +18,27 @@ namespace AllureRemodeling
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+            name: "Material",
+            url: "{controller}/{action}/{id}",
+            defaults: new { controller = "Manager", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "MaterialCreate",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Manager", action = "Create", IdItem = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "MaterialEdit",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Material", action = "Edit", IdItem = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "MaterialDelete",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Material", action = "Delete", IdItem = UrlParameter.Optional }
+            );
         }
     }
    
