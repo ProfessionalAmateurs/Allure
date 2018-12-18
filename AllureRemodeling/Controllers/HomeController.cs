@@ -404,11 +404,11 @@ namespace AllureRemodeling.Controllers
                 //sending emails with secure protocol  
                 WebMail.EnableSsl = true;
                 //EmailId used to send emails from application  
-                WebMail.UserName = "justlia86@gmail.com";
-                WebMail.Password = "Reesa1986";
+                WebMail.UserName = "capstonefinal2018@gmail.com";
+                WebMail.Password = "bluestar2018";
 
                 //Sender email address.  
-                WebMail.From = "justlia86@gmail.com";
+                WebMail.From = "capstonefinal2018@gmail.com";
                 string EmailSubject = "A New Allure Request";
                 string EMailBody =
                 $@"First Name: " + NewContact.FirstName + "<br/>" +

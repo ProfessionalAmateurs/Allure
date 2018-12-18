@@ -468,7 +468,7 @@ namespace AllureRemodeling.Models
                     // Francis's Connection String
                     // ---------------------------
 
-                    sqlConn.ConnectionString = saniaComputer;
+                    sqlConn.ConnectionString = shareeseComputer;
 
                     sqlConn.Open();
                 }
