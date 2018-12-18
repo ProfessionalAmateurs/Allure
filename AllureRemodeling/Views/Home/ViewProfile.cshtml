@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ViewProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <button id="changeMyShit">Submit</button>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(function ()
+        {
+            $("#changeMyShit").click(function ()
+            {
+                $.confirm
+                    ({
+                        title: "Change Your Account",
+                        content: "Are you sure you want to make these changes",
+                        type: 'blue',
+                        typeAnimated: true,
+                        buttons:
+                        {
+                            Yes:
+                            {
+                                text: 'Yes',
+                                btnClass: 'btn-blue',
+                                action: function ()
+                                {
+                                       $.ajax
+                    ({
+                        type: 'POST',
+                        url: '@Url.Action("GetFilingNotificationRecipients", "Employee")',
+                        data: JSON.stringify({ "dateDue": dueDate}),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function ()
+                        {
+                            // Show loader
+                            $(".loader").show();
+                        },
+                        success: function (returnData)
+                        {
+                            $("#RecipientsTable").DataTable
+                                ({
+                                    data: returnData,
+                                    responsive: true,
+                                    destroy: true,
+                                    "pagingType": "full_numbers",
+                                    dom: 'Bfrtip',
+                                    buttons:
+                                    [
+                                        {
+                                            extend: 'copyHtml5',
+                                            title: 'Receipt export'
+                                        },
+                                        {
+                                            extend: 'csvHtml5',
+                                            title: 'Receipt export'
+                                        },
+                                        {
+                                            extend: 'excelHtml5',
+                                            title: 'Receipt export'
+                                        },
+                                        {
+                                            extend: 'pdfHtml5',
+                                            title: 'Receipt PDF'
+                                        },
+                                        'print'
+                                    ],
+
+                                    columns:
+                                    [
+                                        { data: 'property.OWNER_NAME' },
+                                        { data: 'filing.PIDN' },
+                                        { data: 'property.L_EMAIL'},
+                                        { data: 'filing.Filing_Code' },
+                                        { data: 'filing.Date_Due' },
+                                    ]
+                                })
+                                }
+                            },
+                        
+                    });
+            })
+        })
+    </script>    
+}

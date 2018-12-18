@@ -1,0 +1,215 @@
+﻿
+@{
+    ViewBag.Title = "Materials";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header" style="background-color: blue; color: white;">
+               Add Materials
+            </div>
+            <div class="card-body">
+                <div class="form-group col-sm-4">
+                    <label for="materialDescription">Description:</label>
+                    <input class="form-control" name="materialDescription" id="materialDescription" type="text" required />
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="materialVendor">Vendor:</label>
+                    <input class="form-control" name="materialVendor" id="materialVendor" type="text" required />
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="materialPrice">Price:</label>
+                    <input class="form-control" name="materialPrice" id="materialPrice" type="text" required />
+                </div>
+                <div class="col offset-4 col-sm-4">
+                    <input type="submit" class="btn btn-primary btn-block" id="enterMaterial" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+<div class="row" style="margin-top:20px">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header" style="background-color: blue; color: white;">
+                Materials List
+            </div>
+            <div class="card-body">
+                <div class="table-responsive" id="TableOfMaterials">
+                    <div id="receiptsTable">
+                        <table class="table display" id="MaterialsTable">
+                            <thead id="MaterialsTableHeader">
+                                <tr>
+                                    <th></th>
+                                    <th>Description</th>
+                                    <th>Vendor</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="MaterialsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(function ()
+        {
+            $.ajax
+            ({
+                type: 'POST',
+                url: '@Url.Action("GetMaterials", "Employee")',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (data)
+                {
+                    $("#MaterialsTable").DataTable
+                    ({
+                        data: data,
+                        responsive: true,
+                        destroy: true,
+                        "pagingType": "full_numbers",
+                        dom: 'Bfrtip',
+                        buttons:
+                        [
+                            {
+                                extend: 'copyHtml5',
+                                title: 'Receipt export'
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                title: 'Receipt export'
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                title: 'Receipt export'
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                title: 'Receipt PDF'
+                            },
+                            'print'
+                        ],
+
+                        columns:
+                        [
+                            {
+                                "className": 'details-control',
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": '',
+                                "render": function (data, type, row) {
+                                    return '<i title="Edit Material" class="fa fa-plus-square fa-lg" style="color:blue;" aria-hidden="true" onclick="editClick(' + row.MaterialID + ')"></i> <i class="fas fa-trash-alt fa-lg" style="color:red; aria-hidden="true" onclick="deleteMaterial(' + row.MaterialID + ')" title="Delete Material"></i>';
+                                },
+                                width: "15px"
+                            },
+
+                            { data: 'Description' },
+                            { data: 'Vendor' },
+                            { data: 'Price' },
+                 
+                        ]
+                    });
+
+                    $("#enterMaterial").click(function ()
+                    {
+                        var materialDescription = $("#materialDescription").val();
+                        var materialVendor      = $("#materialVendor").val();
+                        var materialPrice       = $("#materialPrice").val();
+
+                        $.ajax
+                        ({
+                            type: 'POST',
+                            url: '@Url.Action("AddMaterial", "Employee")',
+                            data: JSON.stringify({ "description": materialDescription, "vendor": materialVendor, "price":materialPrice}),
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data)
+                            {
+                                if (data == true)
+                                {
+                                    location.reload();
+                                }
+
+                                else
+                                {
+                                    showErrorMessage("Error", "Could not enter material.  Please contact tech support");
+                                }
+                              
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        function editClick(MaterialID)
+        {
+            
+        }
+
+        function deleteMaterial(MaterialID)
+        {
+            $.confirm
+            ({
+                title: false,
+                content: '' +
+                '<form action="" class="formName">' +
+                '<div class="form-group">' +
+                '<label>Are you sure you want to delete this material? <br> Please press <strong style="font-size: 20px;"> Y</strong> to proceed.</label>' +
+                '</div>' +
+                '</form>',
+                           
+                buttons:
+                {
+                    yes:
+                    {
+                        keys: ['y'],
+                        btnClass: 'btn-green',
+                        action: function ()
+                        {   
+                            $.ajax
+                            ({
+                                type: 'POST',
+                                url: '@Url.Action("MaterialDelete", "Employee")',
+                                data: JSON.stringify({ "materialID": MaterialID }),
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data)
+                                {
+                                    if (data == true)
+                                    {
+                                        showSuccessMessage("Success", "The material is deleted");
+                                        location.reload();
+                                    
+                                    }
+                                    else
+                                    {
+                                        showErrorMessage("Error", "Error voiding receipt.");
+                                    }
+                                }
+                            });
+                        }
+                    },
+
+                    no:
+                    {
+                        keys: ['N'],
+                        btnClass: 'btn-red',
+                        action: function ()
+                        {
+
+                        }
+                    },
+                }
+            });
+        }
+    </script>    
+}

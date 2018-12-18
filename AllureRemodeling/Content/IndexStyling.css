@@ -1,0 +1,109 @@
+﻿#Review2 {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#firstInnerSlide img {
+    width: 200px;
+    height: 245px;
+}
+
+#secondInnerSlide img {
+    width: 200px;
+    height: 245px;
+}
+
+#bio {
+    width: 300px;
+    height: 315px;
+}
+
+
+#SidePanel {
+    background-color: white;
+}
+
+#SliderContainer {
+    display: flex;
+    flex-flow: wrap;
+}
+
+
+#firstInnerSlide {
+    height: 250px;
+    background-color: white;
+}
+
+First slider images
+#SliderOneImageOne {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageTwo {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageThree {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageFour {
+    margin-right: 5px;
+    display: inline;
+}
+
+second slider images
+#SliderTwoImageOne {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageTwo {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageThree {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageFour {
+    margin-right: 5px;
+    display: inline;
+}
+
+#BlueDivider {
+    background-color: darkblue;
+    height: 33px;
+    display: inline-flex;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+#AboutUsContainer p {
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#AboutUsContainer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+#ContactContainer {
+    font-size: 12px;
+}
+
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/

@@ -25,10 +25,15 @@ namespace AllureRemodeling
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                         "~/Content/jquery-confirm.css"));
+                      "~/Content/jquery-confirm.css",
+                      "~/Content/glide.core.css",
+                      "~/Content/glide.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-confirm").Include(
               "~/Scripts/jquery-confirm.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/glide").Include(
+            "~/Scripts/glide.js"));
         }
     }
 }

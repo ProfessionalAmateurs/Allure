@@ -9,6 +9,7 @@ namespace AllureRemodeling.Models
     {
         public virtual int MaterialID { get; set; }
         public virtual string Description { get; set; }
-        public virtual decimal Price { get; set; }
+        public virtual decimal Price { get; set; } 
+        public string Vendor { get; set; }
     }
 }

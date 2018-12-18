@@ -156,11 +156,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DatabaseClass.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\EmailClass.cs" />
+    <Compile Include="Models\Estimates.cs" />
     <Compile Include="Models\Jobs.cs" />
     <Compile Include="Models\Materials.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
@@ -179,6 +183,30 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\glide.core.css" />
+    <Content Include="Content\glide.theme.css" />
+    <Content Include="Content\Images\Bathroom1.jpg" />
+    <Content Include="Content\Images\Bathroom2.jpg" />
+    <Content Include="Content\Images\Bathroom3.jpg" />
+    <Content Include="Content\Images\Bathroom4.jpg" />
+    <Content Include="Content\Images\Bathroom5.jpg" />
+    <Content Include="Content\Images\Bathroom6.jpg" />
+    <Content Include="Content\Images\Bathroom7.jpg" />
+    <Content Include="Content\Images\Flooring1.jpg" />
+    <Content Include="Content\Images\Flooring2.jpg" />
+    <Content Include="Content\Images\Flooring3.jpg" />
+    <Content Include="Content\Images\Flooring4.jpg" />
+    <Content Include="Content\Images\Flooring5.jpg" />
+    <Content Include="Content\Images\Flooring6.jpg" />
+    <Content Include="Content\Images\Flooring7.jpg" />
+    <Content Include="Content\Images\kitchen1.jpg" />
+    <Content Include="Content\Images\kitchen2.jpg" />
+    <Content Include="Content\Images\kitchen3.jpg" />
+    <Content Include="Content\Images\kitchen4.jpg" />
+    <Content Include="Content\Images\kitchen5.jpg" />
+    <Content Include="Content\Images\kitchen6.jpg" />
+    <Content Include="Content\Images\kitchen7.jpg" />
+    <Content Include="Content\IndexStyling.css" />
     <Content Include="Content\jquery-confirm.css" />
     <Content Include="Content\MainSite.css" />
     <Content Include="favicon.ico" />
@@ -207,6 +235,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\glide.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -257,6 +286,13 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\PasswordReset.cshtml" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
+    <Content Include="Views\Home\Estimate.cshtml" />
+    <Content Include="Views\Home\Testimonials.cshtml" />
+    <Content Include="Views\Home\CustomerAccountProfile.cshtml" />
+    <Content Include="Views\Home\Galleries.cshtml" />
+    <Content Include="Views\Home\CreateApplicantProfile.cshtml" />
+    <Content Include="Views\Home\ViewProfile.cshtml" />
+    <Content Include="Views\Employee\Materials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
