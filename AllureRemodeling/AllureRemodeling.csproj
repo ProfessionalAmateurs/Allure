@@ -185,6 +185,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\glide.core.css" />
     <Content Include="Content\glide.theme.css" />
+    <Content Include="Content\Images\allureforblue.jpg" />
     <Content Include="Content\Images\Bathroom1.jpg" />
     <Content Include="Content\Images\Bathroom2.jpg" />
     <Content Include="Content\Images\Bathroom3.jpg" />
@@ -206,6 +207,17 @@
     <Content Include="Content\Images\kitchen5.jpg" />
     <Content Include="Content\Images\kitchen6.jpg" />
     <Content Include="Content\Images\kitchen7.jpg" />
+    <Content Include="Content\Images\Remodel-capture 10 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 12 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 13 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 2 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 4 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 6 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 7 - Copy.JPG" />
+    <Content Include="Content\Images\Remodel-capture 8 - Copy.JPG" />
+    <Content Include="Content\Images\smaller-logo.jpg" />
+    <Content Include="Content\Images\work.JPG" />
+    <Content Include="Content\Images\work1.JPG" />
     <Content Include="Content\IndexStyling.css" />
     <Content Include="Content\jquery-confirm.css" />
     <Content Include="Content\MainSite.css" />
@@ -293,6 +305,7 @@
     <Content Include="Views\Home\CreateApplicantProfile.cshtml" />
     <Content Include="Views\Home\ViewProfile.cshtml" />
     <Content Include="Views\Employee\Materials.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
