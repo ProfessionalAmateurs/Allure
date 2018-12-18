@@ -1,0 +1,236 @@
+﻿#Review1 {
+    /* Over flow hidden hides the text if it is more than N lines  */
+    overflow: hidden;
+    /* To set '...' in absolute position */
+    position: relative;
+    /* Use this value to count block height */
+    line-height: 1.2em;
+    /* Max-height = line-height (1.2) * lines max number (10) */
+    max-height: 12em;
+    /* If the last visible word doesn't adjoin right side then this will fix the problem */
+    text-align: justify !important;
+    /* place for '...' */
+    padding-right: 40px;
+    padding-left: 2em;
+    font-size: 12px;
+}
+
+    /* create the ... */
+    #Review1:before {
+        /* points in the end */
+        content: '...';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of block */
+        right: 27px;
+        bottom: 0;
+    }
+
+    /* hide ... if we have text, which is less than or equal to max lines */
+    #Review1:after {
+        /* points in the end */
+        content: '';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of text */
+        right: 20px;
+        /* set width and height */
+        width: 1em;
+        height: 1em;
+        margin-top: 0.2em;
+        /* bg color = bg color under block */
+        background: white;
+    }
+
+/* styles for '...' */
+#Review2 {
+    /* Over flow hidden hides the text if it is more than N lines  */
+    overflow: hidden;
+    /* To set '...' in absolute position */
+    position: relative;
+    /* Use this value to count block height */
+    line-height: 1.2em;
+    /* Max-height = line-height (1.2) * lines max number (10) */
+    max-height: 12em;
+    /* If the last visible word doesn't adjoin right side then this will fix the problem */
+    text-align: justify !important;
+    /* place for '...' */
+    padding-right: 40px;
+    padding-left: 2em;
+    font-size: 12px;
+}
+
+    /* create the ... */
+    #Review2:before {
+        /* points in the end */
+        content: '...';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of block */
+        right: 28px;
+        bottom: 0;
+    }
+
+    /* hide ... if we have text, which is less than or equal to max lines */
+    #Review2:after {
+        /* points in the end */
+        content: '';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of text */
+        right: 20px;
+        /* set width and height */
+        width: 1em;
+        height: 1em;
+        margin-top: 0.2em;
+        /* bg color = bg color under block */
+        background: white;
+    }
+
+#Review3 {
+    /* Over flow hidden hides the text if it is more than N lines  */
+    overflow: hidden;
+    /* To set '...' in absolute position */
+    position: relative;
+    /* Use this value to count block height */
+    line-height: 1.2em;
+    /* Max-height = line-height (1.2) * lines max number (10) */
+    max-height: 12em;
+    /* If the last visible word doesn't adjoin right side then this will fix the problem */
+    text-align: justify !important;
+    /* place for '...' */
+    padding-right: 40px;
+    padding-left: 2em;
+    font-size: 12px;
+}
+
+    /* create the ... */
+    #Review3:before {
+        /* points in the end */
+        content: '..';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of block */
+        right: 170px;
+        bottom: 0;
+    }
+
+    /* hide ... if we have text, which is less than or equal to max lines */
+    #Review3:after {
+        /* points in the end */
+        content: '';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of text */
+        right: 20px;
+        /* set width and height */
+        width: 1em;
+        height: 1em;
+        margin-top: 0.2em;
+        /* bg color = bg color under block */
+        background: white;
+    }
+
+#firstInnerSlide img {
+    width: 200px;
+    height: 245px;
+}
+
+#secondInnerSlide img {
+    width: 200px;
+    height: 245px;
+}
+
+#bio {
+    width: 300px;
+    height: 315px;
+}
+
+
+#SidePanel {
+    background-color: white;
+}
+
+#SliderContainer {
+    display: flex;
+    flex-flow: wrap;
+}
+
+
+#firstInnerSlide {
+    height: 250px;
+    background-color: white;
+}
+
+First slider images
+#SliderOneImageOne {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageTwo {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageThree {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderOneImageFour {
+    margin-right: 5px;
+    display: inline;
+}
+
+second slider images
+#SliderTwoImageOne {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageTwo {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageThree {
+    margin-right: 5px;
+    display: inline;
+}
+
+#SliderTwoImageFour {
+    margin-right: 5px;
+    display: inline;
+}
+
+#BlueDivider {
+    background-color: darkblue;
+    height: 33px;
+    display: inline-flex;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+#AboutUsContainer p {
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#AboutUsContainer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+#ContactContainer {
+    font-size: 12px;
+}
+
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/

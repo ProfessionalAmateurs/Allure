@@ -63,6 +63,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery-confirm")
+    @Scripts.Render("~/bundles/glide")
+    @RenderSection("styles", required: false)
     @RenderSection("scripts", required: false)
 </head>
 <body>
@@ -78,15 +80,22 @@
                 </div>
                 <nav class="navbar-expand-lg border border-dark ">
                     <form>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Home</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>About Us</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Services</u></a>
+                        <a href="@Url.Action("Index","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Home</u></a>
+                        <a href="@Url.Action("About","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>About Us</u></a>
+                        <a href="@Url.Action("Services", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Services</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Gallery</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Customer Reviews</u></a>
+                        <a href="@Url.Action("Testimonials", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Customer Reviews</u></a>
                         <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Careers</u></a>
-                        <a href="#" class="btn btn-lg btn-light text-primary border border-primary"><u>Request an Estimate</u></a>
+                        <a href="@Url.Action("Estimate", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Request an Estimate</u></a>
                         <a href="@Url.Action("CreateCustomerProfile","Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Create a Profile</u></a>
-                        <a href="@Url.Action("Login", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
+                        <a id="loginButton" href="@Url.Action("Login", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
+                        <a id="logoutButton" href="@Url.Action("LogOut", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>Login</u></a>
+                        @if (Session["LoggedIn"] != null)
+                        {
+                            <a id="\" href="@Url.Action("ViewProfile", "Home")" class="btn btn-lg btn-light text-primary border border-primary"><u>View Profile</u></a>
+                        }
+
+
 
                     </form>
                 </nav>
@@ -116,6 +125,35 @@
 
     <script>
 
+        $(function ()
+        {
+            console.log("Test");
+            $.ajax
+            ({
+                type: 'POST',
+                url: '@Url.Action("GetLoginStatus", "Home")',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (data)
+                {
+                    // Is user logged in?
+                    if (data == true)
+                    {
+                        // Yes
+                        $("#logoutButton").show();
+                        $("#accountProfileButton").show();
+                        $("#loginButton").hide();
+                    }
+                    else 
+                    {
+                        // No
+                        $("#logoutButton").hide();
+                        $("#accountProfileButton").hide();
+                    }
+                }
+            });
+        })
+        
         function showErrorMessage(Title, Message)
         {
             $.confirm
@@ -188,6 +226,8 @@
             var results = regex.exec(location.search);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
+
+
     </script>
 </body>
 </html>

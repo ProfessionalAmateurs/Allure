@@ -261,6 +261,175 @@ namespace AllureRemodeling.Models
 
 
 
+        //------------------------------------------------------------------------------------------
+        // Name: GetEstimateQuestions
+        // Abstract: get estimate questions
+        // ------------------------------------------------------------------------------------------
+        public List<Estimates> GetEstimateQuestions()
+        {
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            var estimateQuestions = new List<Estimates>();
+
+            string select = "SELECT QuestionID, Question FROM TQuestions";
+
+            SqlCommand sql = new SqlCommand(select, cn);
+
+            SqlDataReader reader = sql.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Estimates estimates = new Estimates();
+
+                estimates.QuestionID = Convert.ToInt32(reader["QuestionID"]);
+                estimates.Question = reader["Question"].ToString();
+
+                estimateQuestions.Add(estimates);
+            }
+
+            CloseDBConnection(ref cn);
+
+            return estimateQuestions;
+        }
+
+        //------------------------------------------------------------------------------------------
+        // Name: InsertEstimateAnswers
+        // Abstract: Insert answers for the estimate questions
+        // ------------------------------------------------------------------------------------------
+        public bool InsertAnswerData(Estimates estimateAnswers)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+                bool success = false;
+                string cmdString = "Insert into TAnswers (QuestionID, Answer) Values (@id, @answer)";
+
+                SqlCommand sql = new SqlCommand(cmdString, cn);
+                sql.Parameters.AddWithValue("@id", estimateAnswers.QuestionID);
+                sql.Parameters.AddWithValue("@answer", estimateAnswers.Answer);
+
+                int rowsAffected = sql.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    success = true;
+                }
+
+                CloseDBConnection(ref cn);
+                return success;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+        }
+
+        //------------------------------------------------------------------------------------------
+        // Name: GetReviews
+        // Abstract: get customer reviews
+        // ------------------------------------------------------------------------------------------
+        public List<Testimonials> GetReviews()
+        {
+            SqlConnection cn = new SqlConnection();
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            var reviews = new List<Testimonials>();
+
+            string select = "SELECT Testimonial, Date, LastName + ',' + FirstName AS Name FROM TTestimonials left join TUsers on TTestimonials.UserID = TUsers.UserID";
+
+            SqlCommand sql = new SqlCommand(select, cn);
+
+            SqlDataReader reader = sql.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Testimonials testimonials = new Testimonials();
+
+                testimonials.Testimonial = reader["Testimonial"].ToString();
+                testimonials.Name = reader["Name"].ToString();
+                testimonials.Date = Convert.ToDateTime(reader["Date"]);
+
+                reviews.Add(testimonials);
+            }
+
+            CloseDBConnection(ref cn);
+
+            return reviews;
+        }
+
+        //------------------------------------------------------------------------------------------
+        // Name: InsertReviewsUsingStoreProcedures
+        // Abstract: Insert reviews and users in Usertable
+        // ------------------------------------------------------------------------------------------
+        public bool InsertReviewData(Testimonials reviews)
+        {
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+               
+                SqlCommand cmd;
+               
+                cmd = new SqlCommand("AddReview", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = reviews.FirstName;
+                cmd.Parameters.Add("@LastName", SqlDbType.VarChar).Value = reviews.LastName;
+                cmd.Parameters.Add("@Review", SqlDbType.VarChar).Value = reviews.Testimonial;
+
+                
+
+                int i = cmd.ExecuteNonQuery();
+                CloseDBConnection(ref cn);
+
+                if (i >= 1)
+                    return true;
+                else
+                    return false;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+        }
+
+
+
+        // ------------------------------------------------------------------------------------------
+        // Name: AddApplicantAccount
+        // Abstract: Adds an applicant to the TUsers table
+        // ------------------------------------------------------------------------------------------
+        public bool AddApplicantAccount(Users user)
+        {
+            SqlConnection cn = new SqlConnection();
+
+            if (GetDBConnection(ref cn) == 1) throw new Exception("Could not establish connection");
+
+            bool success = false;
+
+            string insertStatement = "INSERT INTO TUsers( FirstName, LastName, Address1, Address2, City, State, Zip, PhoneNumber, EmailAddress, SecurityGroupID, AccountTypeID, SystemUserID) ";
+            insertStatement += "Values('" + user.FirstName + "', '" + user.LastName + "', '" + user.Address1 + "', '" + user.Address2 + "', '" + user.City + "', '" + user.State + "', '" + user.Zip + "', '" + user.PhoneNumber + "', '" + user.EmailAddress + "', 1, 1, 1 )";
+
+            SqlCommand sql = new SqlCommand(insertStatement, cn);
+
+            int rowsAffected = sql.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                success = true;
+            }
+
+            return success;
+        }
+
+
         // ------------------------------------------------------------------------------------------
         // Name: GetDBConnection
         // Abstract: Connect to the database.  Here is where connection strings should be changed
@@ -287,18 +456,19 @@ namespace AllureRemodeling.Models
                     // ---------------------------
                     // Shareese's Connection Strings
                     // ---------------------------
-                    
+                    string shareeseComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Shareese\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
 
                     // ---------------------------
                     // Saniya's Connection Strings
                     // ---------------------------
-         
+                    string saniaComputer = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Saniya\Allure.mdf; Integrated Security = True; Connect Timeout = 30";
+
 
                     // ---------------------------
                     // Francis's Connection String
                     // ---------------------------
-                    
-                    sqlConn.ConnectionString = ricksComputer;
+
+                    sqlConn.ConnectionString = saniaComputer;
 
                     sqlConn.Open();
                 }
